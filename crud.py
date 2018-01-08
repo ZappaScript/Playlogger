@@ -14,30 +14,36 @@ from marshmallowSchemes import *
     #    horaInicio = descriptor["horaInicio"]
      #   horaFinal = descriptor["horaFinal"]
 
-
-
-@app.route("/cliente", methods=["POST"])
-def add_client():
-    rif = request.json['rif']
-    razonSocial = request.json['razonSocial']
-    nombre = request.json['nombre']
-    
-    
-    new_user = cliente(rif,razonSocial,nombre)
-    try:
-        db.session.add(new_user)
-        db.session.commit()
-    except sqlalchemy.exc.IntegrityError:
-        db.session.rollback()
-        return "Database error"
-
-    return jsonify(new_user)
-
-
 @app.route("/tablas", methods=["GET"])
 def print_tablas():
     toSend = {"tables": db.metadata.sorted_tables }
     return toSend
+
+# endpoint to show all users
+
+@app.route("/contratos", methods=["GET"])
+def get_contratos():
+    all_contratos = Contratos.query.all()
+    result = contratos_schema.dump(all_contratos)
+    return jsonify(result.data)
+    
+@app.route("/contrato/<int:nCorrelativo>", methods=["GET"])
+def get_contrato_by(nCorrelativo):
+    contrato = Contratos.query.filter_by(numeroCorrelativo=nCorrelativo)
+    result = contratos_schema.dump(contrato)
+    return jsonify(result.data)
+    
+@app.route("/cliente/<string:nRif>", methods=["GET"])
+def get_cliente_by(nRif):
+    client = Clientes.query.filter_by(rif=nRif)
+    result = client_schema.dump(client)
+    return jsonify(result.data)
+
+@app.route("/clientes", methods=["GET"])
+def get_clientes():
+    all_Clients = Clientes.query.all()
+    result = clients_schema.dump(all_Clients)
+    return jsonify(result.data)
 
 
 @app.route("/contrato", methods=["POST"])
@@ -68,77 +74,37 @@ def add_tOrder():
     inicio = request.json['inicio']
     final = request.json['final']
 
-    new_user = User(username, email)
+    new_order = ordenesDeTransmision(contratoPadre,numeroOrden,tipoDeTransmision, horas,inicio, final)
     try:
-        db.session.add(new_user)
+        db.session.add(new_order)
         db.session.commit()
-    except sqlalchemy.exc.IntegrityError:
+    except exc.IntegrityError as e:
         db.session.rollback()
-        return "Database error"
+        return jsonify(e)
 
-    return jsonify(new_user)
+    return jsonify(new_order)
 
 
 @app.route("/user", methods=["POST"])
 def add_user():
-    username = request.json['username']
-    email = request.json['email']
+    return "this shouldn't exist"
+
+@app.route("/cliente", methods=["POST"])
+def add_client():
+    rif = request.json['rif']
+    razonSocial = request.json['razonSocial']
+    nombre = request.json['nombre']
     
-    new_user = User(username, email)
+    
+    new_client = Clientes(rif=rif,razonSocial=razonSocial,nombre=nombre)
     try:
-        db.session.add(new_user)
+        db.session.add(new_client)
         db.session.commit()
-    except sqlalchemy.exc.IntegrityError:
+    except exc.IntegrityError as e:
         db.session.rollback()
-        return "Database error"
+        return jsonify(e)
 
-    return jsonify(new_user)
-
-
-# endpoint to show all users
-@app.route("/user", methods=["GET"])
-def get_user():
-    all_users = User.query.all()
-    result = users_schema.dump(all_users)
-    return jsonify(result.data)
-
-@app.route("/contratos", methods=["GET"])
-def get_contratos():
-    all_contratos = Contratos.query.all()
-    result = contratos_schema.dump(all_contratos)
-    return jsonify(result.data)
-    
-    
-
-# endpoint to get user detail by id
-@app.route("/user/<id>", methods=["GET"])
-def user_detail(id):
-    user = User.query.get(id)
-    return user_schema.jsonify(user)
-
-
-# endpoint to update user
-@app.route("/user/<id>", methods=["PUT"])
-def user_update(id):
-    user = User.query.get(id)
-    username = request.json['username']
-    email = request.json['email']
-
-    user.email = email
-    user.username = username
-
-    db.session.commit()
-    return user_schema.jsonify(toSerialize = user.serialize())
-
-
-# endpoint to delete user
-@app.route("/user/<id>", methods=["DELETE"])
-def user_delete(id):
-    user = User.query.get(id)
-    db.session.delete(user)
-    db.session.commit()
-
-    return user_schema.jsonify(user)
+    return jsonify(client_schema.dump(new_client))
 
 
 if __name__ == '__main__':

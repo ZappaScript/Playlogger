@@ -22,6 +22,8 @@ class UserSchema(ma.Schema):
         fields = ('username', 'email')
 
 
+client_schema = ClientesSchema()
+clients_schema = ClientesSchema(many=True)
 user_schema = UserSchema()
 users_schema = UserSchema(many=True)
 contrato_schema = ContratosSchema()
