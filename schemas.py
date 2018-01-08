@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask import Flask, request, jsonify
-
+from sqlalchemy import exc
 from sqlalchemy.schema import Column
 from sqlalchemy.orm import sessionmaker, scoped_session
 import os
@@ -94,20 +94,11 @@ class ordenesDeTransmision(db.Model):
             'contratoPadre': self.contratoPadre,
             'numeroOrden': self.numeroOrden,
             'tipoDeTransmision': self.tipoDeTransmision,
-            'horas': self.perteneceA,
+            'horas': self.horas,
             'inicio': self.inicio,
             'final': self.final
         }
 
 
-
-class UserSchema(ma.Schema):
-    class Meta:
-        # Fields to expose
-        fields = ('username', 'email')
-
-
-user_schema = UserSchema()
-users_schema = UserSchema(many=True)
 
 

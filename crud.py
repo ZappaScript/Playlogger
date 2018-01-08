@@ -1,7 +1,20 @@
 from schemas import *
+from marshmallowSchemes import *
 
 
 # endpoint to create new user
+
+
+
+#def generate_schedule(**descriptor):
+ #   if descriptor["tipo"] == "rotativo"
+
+  #  if descriptor["tipo"] == "selectivo"
+   #     numero = descriptor["numero"]
+    #    horaInicio = descriptor["horaInicio"]
+     #   horaFinal = descriptor["horaFinal"]
+
+
 
 @app.route("/cliente", methods=["POST"])
 def add_client():
@@ -14,7 +27,7 @@ def add_client():
     try:
         db.session.add(new_user)
         db.session.commit()
-    except exc.IntegrityError:
+    except sqlalchemy.exc.IntegrityError:
         db.session.rollback()
         return "Database error"
 
@@ -37,11 +50,11 @@ def add_contrato():
     
     new_contrato = Contratos(numeroCorrelativo,horasCompradas,perteneceA)
     try:
-        db.session.add(new_user)
+        db.session.add(new_contrato)
         db.session.commit()
-    except exc.IntegrityError:
+    except exc.IntegrityError as e:
         db.session.rollback()
-        return "Database error"
+        return jsonify(e)
 
     return jsonify(new_contrato)
 
@@ -54,13 +67,12 @@ def add_tOrder():
     horas = request.json['horas']
     inicio = request.json['inicio']
     final = request.json['final']
-    
-    
+
     new_user = User(username, email)
     try:
         db.session.add(new_user)
         db.session.commit()
-    except exc.IntegrityError:
+    except sqlalchemy.exc.IntegrityError:
         db.session.rollback()
         return "Database error"
 
@@ -76,7 +88,7 @@ def add_user():
     try:
         db.session.add(new_user)
         db.session.commit()
-    except exc.IntegrityError:
+    except sqlalchemy.exc.IntegrityError:
         db.session.rollback()
         return "Database error"
 
@@ -90,6 +102,13 @@ def get_user():
     result = users_schema.dump(all_users)
     return jsonify(result.data)
 
+@app.route("/contratos", methods=["GET"])
+def get_contratos():
+    all_contratos = Contratos.query.all()
+    result = contratos_schema.dump(all_contratos)
+    return jsonify(result.data)
+    
+    
 
 # endpoint to get user detail by id
 @app.route("/user/<id>", methods=["GET"])
