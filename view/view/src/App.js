@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import './bootstrap.min.css';
 
 
 
@@ -28,7 +29,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="App table-bordered">
         <tr>
         <th>Cliente</th>
         <th>Horas Compradas</th>
