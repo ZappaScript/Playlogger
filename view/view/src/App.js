@@ -2,20 +2,58 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+
+
+
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: [],
+    };
+  }
+
+
+  componentWillMount() {
+    fetch("http://localhost:5000/contratos")
+        .then((response) => response.json())
+        .then((data) => {
+          data.map((item)=>{console.log(item.perteneceA);})
+          this.setState({value: data})         
+            
+            
+          })
+        
+      }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <tr>
+        <th>Cliente</th>
+        <th>Horas Compradas</th>
+        <th>Horas Restantes</th>
+        <th>Número Correlativo</th>
+        </tr>
+        {this.state.value.map( (client) => {return <Client client={client}/>})}
+        
       </div>
     );
   }
+}
+
+
+class Client extends Component {
+  render(){
+    return (
+      <tr>
+      <td>{this.props.client.perteneceA}</td>
+      <td>{this.props.client.horasCompradas}</td>
+      <td>{this.props.client.horasRestantes}</td>
+      <td>{this.props.client.numeroCorrelativo}</td>
+      </tr>
+       );
+      }
 }
 
 export default App;

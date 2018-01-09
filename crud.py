@@ -14,6 +14,19 @@ from marshmallowSchemes import *
     #    horaInicio = descriptor["horaInicio"]
      #   horaFinal = descriptor["horaFinal"]
 
+
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve(path):
+    if(path == ""):
+        return send_from_directory('view/build', 'index.html')
+    else:
+        if(os.path.exists("view/build/" + path)):
+            return send_from_directory('view/build', path)
+        else:
+            return send_from_directory('view/build', 'index.html')
+
 @app.route("/tablas", methods=["GET"])
 def print_tablas():
     toSend = {"tables": db.metadata.sorted_tables }

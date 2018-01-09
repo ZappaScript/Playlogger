@@ -1,0 +1,30 @@
+@INPROCEEDINGS{BiothogonalWavelets,
+  author = {Sanjeev Pragada,Jayanthi Sivaswamy},
+  title = {Image Denoising Using Matched Biorthogonal Wavelets},
+  pages = {...},
+  crossref = {proc-disc-2009},
+  doi = {...},
+}
+
+@proceedings{SixthIndian,
+  title =        "2008 Sixth Indian Conference on Computer Vision, Graphics & Image Processing ",
+  booktitle =    "2008 Sixth Indian Conference on Computer Vision, Graphics & Image Processing ",
+  publisher =    {IEEE}
+  venue =        { Bhubaneswar, India},
+  month =        dec,
+  year =         {2008},
+  isbn =         {1-59593-322-0},
+}
+
+Contrato = Contratos(numeroCorrelativo=1432351, horasCompradas =100,horasRestantes = 100,perteneceA="020978294")
+
+
+ numeroCorrelativo = db.Column(db.Integer, primary_key=True)
+    horasCompradas = db.Column(db.Integer)
+    horasRestantes = db.Column(db.Integer)
+    perteneceA = db.Column(db.String(10),db.ForeignKey('clientes.rif'))
+Cliente = Clientes(razonSocial="Juridico",rif="020978294J", nombre="Juacho Panza")
+
+razonSocial = db.Column(db.String)
+    rif = db.Column(db.String(10), primary_key=True)
+    nombre = db.Column (db.String(120))
