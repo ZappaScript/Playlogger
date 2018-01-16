@@ -2,59 +2,33 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import './bootstrap.min.css';
-
+import Contracts from './contracts.js'
+import Contract from './contract.js'
+import {
+  BrowserRouter as Router,
+  Route, 
+  Link, Switch} 
+  from 'react-router-dom'
 
 
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: [],
-    };
-  }
+  
 
 
-  componentWillMount() {
-    fetch("http://localhost:5000/contratos")
-        .then((response) => response.json())
-        .then((data) => {
-          data.map((item)=>{console.log(item.perteneceA);})
-          this.setState({value: data})         
-            
-            
-          })
-        
-      }
 
   render() {
     return (
-      <div className="App table-bordered">
-        <tr>
-        <th>Cliente</th>
-        <th>Horas Compradas</th>
-        <th>Horas Restantes</th>
-        <th>Número Correlativo</th>
-        </tr>
-        {this.state.value.map( (client) => {return <Client client={client}/>})}
+      <Router  className="App table-bordered">
         
-      </div>
+        <Contracts />
+        
+      </Router>
     );
   }
 }
 
 
-class Client extends Component {
-  render(){
-    return (
-      <tr>
-      <td>{this.props.client.perteneceA}</td>
-      <td>{this.props.client.horasCompradas}</td>
-      <td>{this.props.client.horasRestantes}</td>
-      <td>{this.props.client.numeroCorrelativo}</td>
-      </tr>
-       );
-      }
-}
+
 
 export default App;
