@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -12,11 +12,11 @@ import {
     Link, Switch, Redirect} 
     from 'react-router-dom'
 
-class addClient extends Component{
+class AddClient extends Component{
 
 render(){return(<p>addClient</p>)}
 
 }
 
 
-export default addClient;
+export default AddClient;

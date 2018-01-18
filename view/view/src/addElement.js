@@ -1,13 +1,13 @@
-import React from 'react';
+import React , {Component} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import Contract from './contract.js';
 import Clients from './clients.js';
 import NavBar from './nav.js';
-import addClient from 'addClient.js';
-import addContract from 'addClient.js';
-import addEmision from 'addClient.js';
+import AddClient from './addClient.js';
+import addContract from './addClient.js';
+import addEmision from './addClient.js';
 
 
 import registerServiceWorker from './registerServiceWorker';
@@ -23,23 +23,30 @@ class addElement extends Component{
     constructor(props){
     
         super(props);
-        this.state ={toAdd:""} 
+        
                       
     }
     
-    render () {
-        {
-            this.state.toAdd==='client' && <addClient />
-        }
+    render() {
+            let toRender= this.props.match.params.toAdd;
+        switch (toRender){
+            case 'client': 
+                return (<AddClient />)
+            case 'contract': 
+                return (<addContract />)
+            case 'order': 
+                return (<addEmission />)
 
-        {
-            this.state.toAdd==='contract' && <addContract />
+
         }
-        {
-            this.state.toAdd==='emision' && <addEmission />
-        }
+            
+        
+        
+        
 
     }
 
 
 }    
+
+export default addElement;
