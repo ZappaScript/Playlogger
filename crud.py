@@ -40,15 +40,18 @@ def get_contratos():
     result = contratos_schema.dump(all_contratos)
     return jsonify(result.data)
     
-@app.route("/contrato/<int:nCorrelativo>", methods=["GET"])
+@app.route("/contrato/<nCorrelativo>", methods=["GET"])
 def get_contrato_by(nCorrelativo):
+    
     contrato = Contratos.query.filter_by(numeroCorrelativo=nCorrelativo)
     result = contratos_schema.dump(contrato)
     return jsonify(result.data)
     
 @app.route("/cliente/<string:nRif>", methods=["GET"])
 def get_cliente_by(nRif):
-    client = Clientes.query.filter_by(rif=nRif)
+    
+    ##client = Clientes.query.filter_by(rif = nRif).one()
+    client = Clientes.query.get(nRif)
     result = client_schema.dump(client)
     return jsonify(result.data)
 
@@ -67,7 +70,7 @@ def add_contrato():
     perteneceA = request.json['perteneceA']
     
     
-    new_contrato = Contratos(numeroCorrelativo,horasCompradas,perteneceA)
+    new_contrato= Contratos(numeroCorrelativo,horasCompradas,perteneceA)
     try:
         db.session.add(new_contrato)
         db.session.commit()
@@ -104,11 +107,11 @@ def add_user():
 
 @app.route("/cliente", methods=["POST"])
 def add_client():
-    rif = request.json['rif']
-    razonSocial = request.json['razonSocial']
-    nombre = request.json['nombre']
-    
-    
+    jsonData = request.get_json()
+    print(jsonData )
+    rif = jsonData['rif']
+    razonSocial = jsonData['razonSocial']
+    nombre = jsonData['nombre']
     new_client = Clientes(rif=rif,razonSocial=razonSocial,nombre=nombre)
     try:
         db.session.add(new_client)

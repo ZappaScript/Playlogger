@@ -15,42 +15,15 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'cr
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
-class Clientes(db.Model):
-    
-    razonSocial = db.Column(db.String)
-    rif = db.Column(db.String(10), primary_key=True)
-    nombre = db.Column (db.String(120))
-
-    def __init__(self, razonSocial, rif, nombre):
-        self.razonSocial = razonSocial
-        self.rif = rif
-        self.nombre = nombre
-    def serialize(self):
-        return {
-            'razonSocial': self.razonSocial,
-            'rif': self.rif,
-            'nombre': self.nombre
-        }
 
 class Contratos(db.Model):
     
     numeroCorrelativo = db.Column(db.Integer, primary_key=True)
     horasCompradas = db.Column(db.Integer)
     horasRestantes = db.Column(db.Integer)
-    perteneceA = db.Column(db.String(10),db.ForeignKey('clientes.rif'))
-
-    def __init__(self,numeroCorrelativo,horasCompradas,perteneceA):
-        self.numeroCorrelativo = numeroCorrelativo
-        self.horasCompradas = horasCompradas
-        self.horasRestantes = horasCompradas
-        self.perteneceA = perteneceA
-    def serialize(self):
-        return {
-            'numeroCorrelativo': self.numeroCorrelativo,
-            'horasCompradas': self.horasCompradas,
-            'horasRestantes': self.horasRestantes,
-            'perteneceA': self.perteneceA
-        }
+    perteneceA = db.Column(db.String(10))
+    def __repr__(self):
+        return '<numeroCorrelativo {}>'.format(self.numeroCorrelativo)
 
 class ordenesDeTransmision(db.Model):
     
@@ -60,26 +33,14 @@ class ordenesDeTransmision(db.Model):
     horas = db.Column(db.Integer)
     inicio = db.Column(db.Integer)
     final = db.Column(db.Integer)
-    
-
-
-    def __init__(self,contratoPadre,numeroOrden,tipoDeTransmision,horas,inicio,final):
-        self.contratoPadre = contratoPadre
-        self.numeroOrden = numeroOrden
-        self.tipoDeTransmision = tipoDeTransmision
-        self.horas = horas
-        self.inicio = inicio
-        self.final = final
-    def serialize(self):
-        return {
-            'contratoPadre': self.contratoPadre,
-            'numeroOrden': self.numeroOrden,
-            'tipoDeTransmision': self.tipoDeTransmision,
-            'horas': self.horas,
-            'inicio': self.inicio,
-            'final': self.final
-        }
+    def __repr__(self):
+        return '<numeroOrden {}>'.format(self.numeroOrden)
 
 
 
-
+class Clientes(db.Model):
+    rif = db.Column(db.Integer, primary_key=True)
+    razonSocial = db.Column(db.String(120))
+    nombre = db.Column (db.String(120))
+    def __repr__(self):
+        return '<rif {}>'.format(self.rif)

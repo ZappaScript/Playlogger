@@ -7,7 +7,7 @@ class ContratosSchema(ma.Schema):
 class ClientesSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ('razonSocial', 'rif','nombre')
+        fields = (  'rif', 'razonSocial','nombre')
 
 
 class ordenesDeTransmisionSchema(ma.Schema):
