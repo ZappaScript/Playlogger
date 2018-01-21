@@ -39,7 +39,7 @@ class ordenesDeTransmision(db.Model):
 
 
 class Clientes(db.Model):
-    rif = db.Column(db.Integer, primary_key=True)
+    rif = db.Column(db.String(10), primary_key=True)
     razonSocial = db.Column(db.String(120))
     nombre = db.Column (db.String(120))
     def __repr__(self):

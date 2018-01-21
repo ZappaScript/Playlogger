@@ -20,12 +20,12 @@ from marshmallowSchemes import *
 @app.route('/<path:path>')
 def serve(path):
     if(path == ""):
-        return send_from_directory('view/build', 'index.html')
+        return send_from_directory('view/build', 'root.html')
     else:
         if(os.path.exists("view/build/" + path)):
             return send_from_directory('view/build', path)
         else:
-            return send_from_directory('view/build', 'index.html')
+            return send_from_directory('view/build', 'root.html')
 
 @app.route("/tablas", methods=["GET"])
 def print_tablas():
@@ -33,6 +33,13 @@ def print_tablas():
     return toSend
 
 # endpoint to show all users
+
+
+@app.route("/ordenes", methods=["GET"])
+def get_ordenes():
+    all_ordenes = ordenesDeTransmision.query.all()
+    result = ordenes_schema.dump(all_ordenes)
+    return jsonify(result.data)
 
 @app.route("/contratos", methods=["GET"])
 def get_contratos():

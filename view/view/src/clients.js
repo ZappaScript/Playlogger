@@ -18,20 +18,6 @@ import {
       }
 
       componentWillMount() {
-          console.log(this.props)
-         if(this.props.clients.length === 0){
-            let clients = []
-            fetch("http://localhost:5000/clientes")
-            .then((response) => response.json())
-            .then((data) => {
-              
-             this.props.setClients(data)         
-              
-                
-              })
-
-         }
-            
           }
 
           render(){
@@ -40,9 +26,9 @@ import {
             
               return(
             
-                <div className="row ">
-                    <div className="col-lg-6 offset-lg-3">
-                    <table className="table table-striped table-bordered table-hover table-condensed"> 
+                <div className="row container justify-content-center mt-2">
+                    <div className="col-md-6">
+                    <table className="table table-striped table-bordered table-hover table-condensed table-sm"> 
                     <tbody>
                         <tr>
                             <th>RIF</th>

@@ -14,17 +14,19 @@ import {
 const NavBar = ()=> {
 
 return(
-    <div className='navbar navbar-expand-sm bg-primary navbar-dark'>
-        <div>
-            <Link to='/contracts'> Contratos</Link>
+    <nav className='navbar navbar-toggleable-md navbar-light bg-faded'>
+        <div className="navbar-nav">
+            <div className="nav-item">
+                <Link to='/contracts'  style={{color: 'black'}}> <h1 className="navbar-brand mb-0">Contratos</h1> </Link>
+            </div>
+            <div className="nav-item">
+                <Link to='/emision' style={{color: 'black'}}> <h1 className="navbar-brand mb-0">Ordenes</h1></Link>
+            </div>
+            <div className="nav-item">
+                <Link to='/clients' style={{color: 'black'}}> <h1 className="navbar-brand mb-0">Clientes</h1>  </Link>
+            </div>
         </div>
-        <div>
-            <Link to='/emision'> Ordenes</Link>
-        </div>
-        <div>
-            <Link to='/clients'> Clientes </Link>
-         </div>
-    </div>
+    </nav>
 );
 
 }

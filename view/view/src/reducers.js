@@ -1,4 +1,4 @@
-import {SET_CLIENTS,SET_CONTRACTS,SET_ORDERS} from './actions.js'
+import {SET_CLIENTS,SET_CONTRACTS,SET_ORDERS, SET_LOADED} from './actions.js'
 
 const initialState = {
 
@@ -6,7 +6,9 @@ const initialState = {
 
     contracts : [],
 
-    orders:[]
+    orders:[],
+
+    loaded: false
 
 }
 
@@ -28,6 +30,10 @@ function contratosApp(state = initialState, action) {
         orders: action.orders
         })
       
+      case SET_LOADED:
+        return Object.assign({}, state, {
+        loaded: action.loaded
+        })
         
 
   
