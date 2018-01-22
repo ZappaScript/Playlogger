@@ -71,13 +71,14 @@ def get_clientes():
 
 @app.route("/contrato", methods=["POST"])
 def add_contrato():
-    numeroCorrelativo = request.json['numeroCorrelativo']
-    horasCompradas = request.json['horasCompradas']
-    horasRestantes = request.json['horasCompradas']
-    perteneceA = request.json['perteneceA']
+    jsonData = request.get_json()
+    numeroCorrelativo = jsonData['numeroCorrelativo']
+    horasCompradas = jsonData['horasCompradas']
+    horasRestantes = jsonData['horasCompradas']
+    perteneceA = jsonData['perteneceA']
     
     
-    new_contrato= Contratos(numeroCorrelativo,horasCompradas,perteneceA)
+    new_contrato= Contratos(numeroCorrelativo=numeroCorrelativo,horasCompradas=horasCompradas,horasRestantes=horasRestantes,perteneceA=perteneceA)
     try:
         db.session.add(new_contrato)
         db.session.commit()
@@ -85,7 +86,7 @@ def add_contrato():
         db.session.rollback()
         return jsonify(e)
 
-    return jsonify(new_contrato)
+    return jsonify(contrato_schema.dump(new_contrato))
 
 
 @app.route("/orden", methods=["POST"])

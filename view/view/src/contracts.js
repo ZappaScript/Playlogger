@@ -52,6 +52,7 @@ class Contracts extends Component {
             </table>
           
             </div>
+            <div>  <Link to ={{ pathname:"/add/contract"}}><div> Add contract</div></Link></div>
         </div>
          );
         }

@@ -6,8 +6,8 @@ import Contract from './contract.js';
 import Clients from './clients.js';
 import NavBar from './nav.js';
 import AddClient from './addClient.js';
-import addContract from './addClient.js';
-import addEmision from './addClient.js';
+import AddContract from './addContract.js';
+import AddEmision from './addClient.js';
 
 
 import registerServiceWorker from './registerServiceWorker';
@@ -33,7 +33,7 @@ class addElement extends Component{
             case 'client': 
                 return (<AddClient />)
             case 'contract': 
-                return (<addContract />)
+                return (<AddContract />)
             case 'order': 
                 return (<addEmission />)
 
