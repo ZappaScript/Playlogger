@@ -6,9 +6,18 @@ import {
     from 'react-router-dom'
     import './bootstrap.min.css';
 import { connect } from 'react-redux'
-
+import { Button, Collapse,Table } from 'react-bootstrap';
     export class Contract extends Component {
+        constructor(props){
+            super(props);
+
+            this.state={ open:false}
+            this.extra = false;
+        }
+
+
         render() {
+            {console.log(this.state)}
           let numeroCorrelativo = this.props.match.params.numeroCorrelativo;
           let query = this.props.getContract(numeroCorrelativo);
           let singleContract = query.contract;
@@ -16,24 +25,47 @@ import { connect } from 'react-redux'
     
           console.log("Contract and contracts",singleContract, orders);
           return (
-            <div className="row">
-              <div className="col-md-2 offset-md-2" >
+            <div >
+              <div  >
               
               
               
               <p>{singleContract.numeroCorrelativo}</p>
               </div>
               
-              <div className="col-md-2 offset-md-2" >
-              <label>Ordenes asociadas:</label>
+                <label>Ordenes asociadas:</label>
+                
+              <div>
+              
+             
+              <Table striped bordered condensed hover>
+                  <tbody>
+              <tr>
+                <th>Contrato padre</th>
+                <th>Numero orden</th>
+                <th>Tipo de transmision</th>
+                <th>Horas</th>
+                <th>Inicio</th>
+                <th>Final</th>
+                
+
+              </tr> 
               { orders.map((order,i) =>
                   {return(
-                    <div key={i}>
-                    <p>{order.contratoPadre}</p>
-                    </div>
+                    <tr key={i}>
+                    <td>{order.contratoPadre}</td>
+                    <td>{order.numeroOrden}</td>
+                    <td>{order.tipoDeTransmision}</td>
+                    <td>{order.horas}</td>
+                    <td>{order.inicios}</td>
+                    <td>{order.final}</td>
+                    </tr>
                     )
                   } 
                )}
+               </tbody>
+               </Table>
+               
               </div>
               
     

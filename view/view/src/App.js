@@ -7,7 +7,7 @@ import singleClientContainer from './client.js';
 import NavBar from './nav.js'
 import addElement from "./addElement.js"
 import Contracts from './contracts.js'
-
+import ordersContainer from './containers/ordersContainer.js'
 
 import {
     BrowserRouter as Router,
@@ -75,6 +75,8 @@ render(){
                 <Switch>
                     <Route exact={true} path='/contracts' component={ contractsContainer }/>
                     <Route exact={true} path='/contracts/:numeroCorrelativo' component={singleContractContainer}/>
+                    <Route exact={true} path='/orders' component={ ordersContainer }/>
+
                     <Route exact={true} path='/clients' component={ clientsContainer }/>
                     <Route exact={true} path='/clients/:rif' component={ singleClientContainer }/>
                    

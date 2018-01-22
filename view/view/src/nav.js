@@ -20,7 +20,7 @@ return(
                 <Link to='/contracts'  style={{color: 'black'}}> <h1 className="navbar-brand mb-0">Contratos</h1> </Link>
             </div>
             <div className="nav-item">
-                <Link to='/emision' style={{color: 'black'}}> <h1 className="navbar-brand mb-0">Ordenes</h1></Link>
+                <Link to='/orders' style={{color: 'black'}}> <h1 className="navbar-brand mb-0">Ordenes</h1></Link>
             </div>
             <div className="nav-item">
                 <Link to='/clients' style={{color: 'black'}}> <h1 className="navbar-brand mb-0">Clientes</h1>  </Link>
