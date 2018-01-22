@@ -14,7 +14,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'crud.sqlite')
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
-
+db.create_all()
 
 class Contratos(db.Model):
     
