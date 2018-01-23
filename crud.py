@@ -44,6 +44,13 @@ def get_ordenes():
 @app.route("/contratos", methods=["GET"])
 def get_contratos():
     all_contratos = Contratos.query.all()
+    for contrato in all_contratos:
+        collection = db.session.query(ordenesDeTransmision.horas).filter(ordenesDeTransmision.contratoPadre == contrato.numeroCorrelativo).all()
+        horasRestantes = contrato.horasCompradas
+        for col in collection:
+            horasRestantes-= col.horas
+        contrato.horasRestantes = horasRestantes
+
     result = contratos_schema.dump(all_contratos)
     return jsonify(result.data)
     
@@ -82,9 +89,10 @@ def add_contrato():
     try:
         db.session.add(new_contrato)
         db.session.commit()
+        return jsonify("OK 200")
     except exc.IntegrityError as e:
         db.session.rollback()
-        return jsonify(e)
+        return jsonify(e.args) ##Must find a way to return a more specific error
 
     return jsonify(contrato_schema.dump(new_contrato))
 
@@ -104,6 +112,7 @@ def add_tOrder():
         db.session.commit()
     except exc.IntegrityError as e:
         db.session.rollback()
+        print("e.message",e.message)
         return jsonify(e)
 
     return jsonify(new_order)

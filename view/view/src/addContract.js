@@ -1,25 +1,29 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import './index.css';
+
 import Contract from './contract.js';
 import Contracts from './contracts.js';
 import registerServiceWorker from './registerServiceWorker';
+
 import {
     BrowserRouter as Router,
     Route, 
     Link, Switch, Redirect} 
     from 'react-router-dom'
+import { connect } from 'react-redux';
+import {addContract,ADD_CONTRACT} from './actions.js';
 
-class AddContract extends Component{
+class addContractElement extends Component{
     constructor(props) {
         super(props);
-        this.state= {formperteneceA:"",formHorasCompradas:"",formHorasRestantes:"",formNumeroCorrelativo:""}
+        this.state= {formperteneceA:"",formHorasCompradas:"",formHorasRestantes:"",formNumeroCorrelativo:"",error:""}
         this.handleChangeperteneceA = this.handleChangeperteneceA.bind(this);
         this.handleChangeHorasCompradas = this.handleChangeHorasCompradas.bind(this);
         this.handleChangeHorasRestantes = this.handleChangeHorasRestantes.bind(this);
         this.handleChangeNumeroCorrelativo = this.handleChangeNumeroCorrelativo.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+
       }
 
 
@@ -68,9 +72,13 @@ class AddContract extends Component{
             headers: { 'Accept': 'application/json',
                 'Content-Type':'application/json'}
         , body: JSON.stringify(payload)
-
-
-    })}
+        }).then((reponse)=>reponse.json()).then((reponse)=> {if (reponse[0].indexOf("UNIQUE")!= -1 ) {this.setState({error:"UNIQUE"})} })
+        console.log(this.state.error)
+        if(this.state.error===""){
+            this.props.addContract(payload)
+        }
+    
+    }
 render(){
     return(
         <div className="container">
@@ -111,7 +119,7 @@ render(){
                 Numero Correlativo:
                 </label>
                 <input type="text" value={this.state.formNumeroCorrelativo} onChange={this.handleChangeNumeroCorrelativo} />
-                
+                { (this.state.error =="UNIQUE")  && <h2>Este registro ya existe</h2>}
             </div>
          <input type="submit" value="Submit" />
         </form>
@@ -124,6 +132,26 @@ render(){
 )}
 
 }
+
+
+
+const mapStateToProps = ()=>{
+    return{}
+}
+
+const mapDispatchToProps = dispatch => {
+return{
+    addContract : (contract) => { 
+        dispatch(addContract(contract))
+    }
+
+}
+}
+const AddContract = connect(
+mapStateToProps,
+mapDispatchToProps
+
+)(addContractElement)
 
 
 export default AddContract;

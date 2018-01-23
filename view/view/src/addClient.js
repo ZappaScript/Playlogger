@@ -6,16 +6,18 @@ import Contract from './contract.js';
 import Clients from './clients.js';
 import NavBar from './nav.js'
 import registerServiceWorker from './registerServiceWorker';
+import {addClient, ADD_CLIENT} from './actions.js'
+import {connect} from 'react-redux'
 import {
     BrowserRouter as Router,
     Route, 
     Link, Switch, Redirect} 
     from 'react-router-dom'
 
-class AddClient extends Component{
+class addClientElement extends Component{
     constructor(props) {
         super(props);
-        this.state= {formName:"",formRif:"",formRazonSocial:""}
+        this.state= {formName:"",formRif:"",formRazonSocial:"", error:""}
         this.handleChangeName = this.handleChangeName.bind(this);
         this.handleChangeRIF = this.handleChangeRIF.bind(this);
         this.handleChangeRS = this.handleChangeRS.bind(this);
@@ -59,9 +61,14 @@ class AddClient extends Component{
             headers: { 'Accept': 'application/json',
                 'Content-Type':'application/json'}
         , body: JSON.stringify(payload)
+        })
+        if(this.state.error===""){
+           this.props.addClient(payload)
 
 
-    })}
+        }
+
+}
 render(){
     return(
         <div className="container">
@@ -101,5 +108,24 @@ render(){
 
 }
 
+
+
+const mapStateToProps = ()=>{
+    return{}
+}
+
+const mapDispatchToProps = dispatch => {
+return{
+    addClient : (client) => { 
+        dispatch(addClient(client))
+    }
+
+}
+}
+const AddClient = connect(
+mapStateToProps,
+mapDispatchToProps
+
+)(addClientElement)
 
 export default AddClient;

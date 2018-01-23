@@ -4,6 +4,9 @@ export const SET_CONTRACTS= 'SET_CONTRACTS'
 export const SET_ORDERS = 'SET_ORDERS'
 export const SET_LOADED = 'SET_LOADED'
 export const SET_SEARCH = 'SET_SEARCH'
+export const ADD_CONTRACT = 'ADD_CONTRACT'
+export const ADD_CLIENT = 'ADD_CLIENT'
+export const ADD_ORDER = 'ADD_ORDER'
 
 export function setClients(clients) {
     console.log("setClients:" ,clients)
@@ -32,5 +35,20 @@ export function setLoaded(loaded){
 export function setSearch(searchString){
     console.log("setSearch", searchString)
     return { type: SET_SEARCH, searchString }
+
+}
+
+export function addClient(client){
+    console.log ( "At actions.js addClient, I got:", client)
+return {type: ADD_CLIENT,client}
+
+}
+export function addContract(contract){
+   
+    return {type:ADD_CONTRACT, contract}
+
+}
+export function addOrder(order){
+    return{type:ADD_ORDER,order}
 
 }
