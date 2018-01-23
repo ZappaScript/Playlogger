@@ -26,7 +26,7 @@ class Orders extends Component {
     render(){
       
       const {match} = this.props;
-      console.log("this.props.orders",this.props.orders); 
+      
       return (
         <div className="row container justify-content-center mt-2">
         <div className="col-md-6">
@@ -43,7 +43,7 @@ class Orders extends Component {
                 
 
               </tr> 
-              { this.props.orders.map( (order,i) => {return (
+              { this.props.orders.filter((order)=>{ return (order.numeroOrden==this.props.getSearch() ||  order.contratoPadre == this.props.getSearch() || this.props.getSearch() == "")  } ).map( (order,i) => {return (
                 <tr key={i}>
                   <td> <Link to={`${match.path}`+'/'+order.contratoPadre} ><div>{order.contratoPadre}</div></Link></td>
                   <td><div>{order.numeroOrden}</div></td>

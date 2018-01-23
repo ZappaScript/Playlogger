@@ -11,7 +11,7 @@ const getOrders = (orders) => {
 const mapStateToProps = state => {
     
   return {
-    orders: getOrders(state.orders)
+    orders: getOrders(state.orders), getSearch : ()=>{return state.search}
   }
 }
 

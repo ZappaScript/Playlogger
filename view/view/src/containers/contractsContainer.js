@@ -11,7 +11,7 @@ const getContracts = (contracts) => {
 const mapStateToProps = state => {
     
   return {
-    contracts: getContracts(state.contracts)
+    contracts: getContracts(state.contracts), getSearch : ()=>{return state.search}
   }
 }
 

@@ -11,7 +11,7 @@ const getClients = (clients) => {
 const mapStateToProps = state => {
     console.log("return clients: getClients(state.clients)")
   return {
-    clients: getClients(state.clients)
+    clients: getClients(state.clients), getSearch : ()=>{return state.search}
   }
 }
 

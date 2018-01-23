@@ -36,7 +36,7 @@ import {
                             <th> Nombre</th>
                             
                         </tr>
-                    {this.props.clients.map( (cliente,i)=> { return (
+                    {this.props.clients.filter((client)=>{ return (client.rif==this.props.getSearch() || this.props.getSearch() == "")  } ).map( (cliente,i)=> { return (
                                                     <tr key={i}>
                                                         <td>
                                                             <Link to =
