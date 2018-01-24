@@ -19,14 +19,14 @@ class Index extends Component{
     componentWillMount(){
         if(!this.props.loaded){
 
-            fetch("http://localhost:5000/ordenes")
+            fetch("https://juanestrada.pythonanywhere.com/ordenes")
           .then((response) => response.json())
           .then((payload) => { this.props.pushOrders (payload.slice()); })
 
-            fetch("http://localhost:5000/contratos")
+            fetch("http://juanestrada.pythonanywhere.com/contratos")
           .then((response) => response.json())
           .then((payload) => { this.props.pushContracts(payload.slice()); })
-            fetch("http://localhost:5000/clientes")
+            fetch("http://juanestrada.pythonanywhere.com/clientes")
           .then((response) => response.json())
           .then((payload) => { this.props.pushClients(payload.slice()); })
             
