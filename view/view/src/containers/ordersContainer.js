@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { SET_ORDERS, setOrders } from '../actions.js'
+import { setOrders } from '../actions.js'
 import Orders from '../orders.js'
 
 const getOrders = (orders) => {

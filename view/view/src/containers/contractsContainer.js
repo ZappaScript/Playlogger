@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { SET_CONTRACTS, setContracts } from '../actions.js'
+import { setContracts } from '../actions.js'
 import Contracts from '../contracts.js'
 
 const getContracts = (contracts) => {

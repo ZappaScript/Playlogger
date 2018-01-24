@@ -1,40 +1,28 @@
 import React, { Component } from 'react';
-import Contract from './contract.js'
-import {
-    BrowserRouter as Router,
-    Route, 
-    Link,BrowserHistory} 
-    from 'react-router-dom'
-    import './bootstrap.min.css';
-
+import {Link} from 'react-router-dom';
+import RouterButton from './routerButton.js'
 
     
 class Contracts extends Component {
-
-
     
-    constructor(props) {
-        super(props);
-        }
-    
-    
-      componentWillMount(){
-       
-          
-        }
-        
     render(){
       
       const {match} = this.props;
       console.log("this.props.contracts",this.props.contracts); 
       return (
-        <div className="row container justify-content-center mt-2">
-        <div className="col-md-6">
+        <div className="container justify-content-center mt-5 shadowed wht">
+
+          <div className="row mt-2 col">
+            <div><RouterButton type="contrato" redirectTo="/add/contract"/> </div>
+          </div>
+
+        <div className="row">
+        <div className="col mt-2">
          
             <table className="table col table-striped table-hover table-condensed table-sm">
               <tbody>
               <tr>
-                <th>cliente</th>
+                <th>RIF Cliente</th>
                 <th>Horas Compradas</th>
                 <th>Horas Restantes</th>
                 <th>Número Correlativo</th>
@@ -52,7 +40,8 @@ class Contracts extends Component {
             </table>
           
             </div>
-            <div>  <Link to ={{ pathname:"/add/contract"}}><div> Add contract</div></Link></div>
+            </div>
+            
         </div>
          );
         }

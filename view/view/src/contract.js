@@ -1,23 +1,26 @@
 import React, { Component } from 'react';
-import {
-    BrowserRouter as Router,
-    Route, 
-    Link} 
-    from 'react-router-dom'
-    import './bootstrap.min.css';
 import { connect } from 'react-redux'
-import { Button, Collapse,Table } from 'react-bootstrap';
+import {Table } from 'react-bootstrap';
+import RouterButton from './routerButton.js'
+
     export class Contract extends Component {
         constructor(props){
             super(props);
 
-            this.state={ open:false}
-            this.extra = false;
+            this.state={ open:false, redirect:false}
+            this.handleButton = this.handleButton.bind(this)
+            
         }
 
+        handleButton =() =>{
+          this.setState({redirect:true})
+
+
+        }
+
+        
 
         render() {
-            {console.log(this.state)}
           let numeroCorrelativo = this.props.match.params.numeroCorrelativo;
           let query = this.props.getContract(numeroCorrelativo);
           let singleContract = query.contract;
@@ -25,23 +28,37 @@ import { Button, Collapse,Table } from 'react-bootstrap';
     
           console.log("Contract and contracts",singleContract, orders);
           return (
-            <div >
-              <div  >
-              
-              
-              
-              <p>{singleContract.numeroCorrelativo}</p>
-              </div>
-              
-                <label>Ordenes asociadas:</label>
+            <div className = "container mt-5 shadowed wht">
+            
+
+                  
+              <div className='row'  >
+              <Table striped bordered condensed hover>
+              <tr>
+                <th>Numero Correlativo</th>
+                <th>Cliente</th>
+                <th>Horas Compradas</th>
+                <th>Horas Restantes</th>
                 
-              <div>
-              
-             
+                
+
+              </tr> 
+                  <tr>
+                    <td>{singleContract.numeroCorrelativo}</td>
+                    <td>{singleContract.perteneceA}</td>
+                    <td>{singleContract.horasCompradas}</td>
+                    <td>{singleContract.horasRestantes}</td>
+                  </tr>
+                
+              </Table>
+              </div>
+              <div className='mt-2 mb-2 ml-2 row'> <RouterButton type="orden" redirectTo ={"/add/order/"+ singleContract.numeroCorrelativo} /> </div>
+              <div className="row col justify-content-center">
+              <label>Ordenes asociadas:</label>
               <Table striped bordered condensed hover>
                   <tbody>
               <tr>
-                <th>Contrato padre</th>
+                
                 <th>Numero orden</th>
                 <th>Tipo de transmision</th>
                 <th>Horas</th>
@@ -53,7 +70,7 @@ import { Button, Collapse,Table } from 'react-bootstrap';
               { orders.map((order,i) =>
                   {return(
                     <tr key={i}>
-                    <td>{order.contratoPadre}</td>
+                    
                     <td>{order.numeroOrden}</td>
                     <td>{order.tipoDeTransmision}</td>
                     <td>{order.horas}</td>
@@ -66,12 +83,16 @@ import { Button, Collapse,Table } from 'react-bootstrap';
                </tbody>
                </Table>
                
+
               </div>
-              
+               
     
+           
+           
+            
+            
+            
             </div>
-            
-            
           );
         }
       }

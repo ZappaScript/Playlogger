@@ -1,17 +1,7 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import './bootstrap.min.css';
-import Contracts from './contracts.js'
-import Contract from './contract.js'
-import { SET_SEARCH, setSearch } from './actions.js'
+import { setSearch } from './actions.js'
 import { connect } from 'react-redux'
-
-import {
-  BrowserRouter as Router,
-  Route, 
-  Link, Switch} 
-  from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 
 
@@ -29,19 +19,26 @@ handleSearch = (event) => {
 
 render(){
 return(
-    <nav className='navbar navbar-toggleable-md navbar-light bg-faded'>
+    <nav className='navbar navbar-toggleable-md navbar-light bg-faded aux'>
         <div className="navbar-nav">
             <div className="nav-item">
-                <Link to='/contracts'  style={{color: 'black'}}> <h1 className="navbar-brand mb-0">Contratos</h1> </Link>
+                <Link to='/contracts'  style={{color: 'black'}}> <h1 className="navbar-brand col">Contratos</h1> </Link>
             </div>
+            <div className="verticalLine"></div>
+            <div className="nav-item ">
+                <Link to='/orders' style={{color: 'black'}} > <h1 className="navbar-brand col aux">Ordenes</h1></Link>
+            </div>
+            <div className="verticalLine"></div>
             <div className="nav-item">
-                <Link to='/orders' style={{color: 'black'}}> <h1 className="navbar-brand mb-0">Ordenes</h1></Link>
+                <Link to='/clients' style={{color: 'black'}} className="aCenter col justify-content-center"> <h1 className="navbar-brand col aux">Clientes</h1>  </Link>
             </div>
-            <div className="nav-item">
-                <Link to='/clients' style={{color: 'black'}}> <h1 className="navbar-brand mb-0">Clientes</h1>  </Link>
-            </div>
-            <input type="text" value={this.props.getSearch()} onChange={this.handleSearch} />
+            
+            
         </div>
+
+        <div className="justify-content-end navbar-nav search align-items-end"><span class="fa fa-search"></span>
+            <input type="text" value={this.props.getSearch() }  onChange={this.handleSearch} /></div>
+        
     </nav>
 )
 

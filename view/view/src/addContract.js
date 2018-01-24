@@ -1,18 +1,6 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-
-import Contract from './contract.js';
-import Contracts from './contracts.js';
-import registerServiceWorker from './registerServiceWorker';
-
-import {
-    BrowserRouter as Router,
-    Route, 
-    Link, Switch, Redirect} 
-    from 'react-router-dom'
 import { connect } from 'react-redux';
-import {addContract,ADD_CONTRACT} from './actions.js';
+import {addContract} from './actions.js';
 
 class addContractElement extends Component{
     constructor(props) {
@@ -81,18 +69,15 @@ class addContractElement extends Component{
     }
 render(){
     return(
-        <div className="container">
-        <h1>Add Contract</h1>
-        <div className= "offset-md-2">
+        <div className="container mt-5 wht shadowed">
+        <h2>Añadir Contrato:</h2>
+        <div className= "offset-md-2 ">
         <form onSubmit={this.handleSubmit}>
             <div className="form-group row">
 
-                perteneceA
-                Horas Compradas
-                Horas Restantes
-                Número Correlativo
+                
                 <label className="col-md-2 col-form-label">
-                Clinte:
+                Cliente:
                 </label>
                 <input type="text" value={this.state.formperteneceA} onChange={this.handleChangeperteneceA} />
                 

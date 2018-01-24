@@ -1,31 +1,12 @@
 import React , {Component} from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import Contract from './contract.js';
-import Clients from './clients.js';
-import NavBar from './nav.js';
+
 import AddClient from './addClient.js';
 import AddContract from './addContract.js';
 import AddOrder from './addOrder.js';
 
 
-import registerServiceWorker from './registerServiceWorker';
-import {
-    BrowserRouter as Router,
-    Route, 
-    Link, Switch, Redirect} 
-    from 'react-router-dom'
-
-
 class addElement extends Component{
     
-    constructor(props){
-    
-        super(props);
-        
-                      
-    }
     
     render() {
             let toRender= this.props.match.params.toAdd;
@@ -35,9 +16,10 @@ class addElement extends Component{
             case 'contract': 
                 return (<AddContract />)
             case 'order': 
-                return (<addEmission />)
+                return (<AddOrder contratoPadre = {parseInt(this.props.match.params.param,10)} />)
 
-
+            default:
+                return (<p> Error, llamen al técnico. El error se encuentra en addElement.js </p>)
         }
             
         
@@ -48,5 +30,7 @@ class addElement extends Component{
 
 
 }    
+
+
 
 export default addElement;

@@ -1,35 +1,15 @@
 import React, { Component } from 'react';
-
-import {
-    BrowserRouter as Router,
-    Route, 
-    Link,BrowserHistory} 
-    from 'react-router-dom'
-    import './bootstrap.min.css';
-
+import {Link} from 'react-router-dom'
 
     
 class Orders extends Component {
-
-
-    
-    constructor(props) {
-        super(props);
-        }
-    
-    
-      componentWillMount(){
-       
-          
-        }
-        
-    render(){
+  render(){
       
       const {match} = this.props;
       
       return (
-        <div className="row container justify-content-center mt-2">
-        <div className="col-md-6">
+        <div className="row container justify-content-center mt-5 shadowed wht">
+        <div className="col mt-2 mb-2">
          
             <table className="table col table-striped table-hover table-condensed table-sm">
               <tbody>

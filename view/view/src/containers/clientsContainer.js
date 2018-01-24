@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { SET_CLIENTS, setClients } from '../actions.js'
+import { setClients } from '../actions.js'
 import Clients from '../clients.js'
 
 const getClients = (clients) => {

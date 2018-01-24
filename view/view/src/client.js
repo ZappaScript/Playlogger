@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { SET_CLIENTS, setClients } from './actions.js'
-import contract from './contract';
+
+
 
 
 

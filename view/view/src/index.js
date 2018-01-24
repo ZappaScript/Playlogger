@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './css/index.css';
 import contratosApp from './reducers.js'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 
 import IndexContainer from "./containers/indexContainer.js"
-import { Router } from 'react-router';
+import './css/App.css';
+import './css/font-awesome.min.css'
+import './css/bootstrap.min.css';
 
 
 let store = createStore(contratosApp)

@@ -1,18 +1,7 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import Contract from './contract.js';
-import Clients from './clients.js';
-import NavBar from './nav.js'
-import registerServiceWorker from './registerServiceWorker';
-import {addClient, ADD_CLIENT} from './actions.js'
+import {addClient} from './actions.js'
 import {connect} from 'react-redux'
-import {
-    BrowserRouter as Router,
-    Route, 
-    Link, Switch, Redirect} 
-    from 'react-router-dom'
+
 
 class addClientElement extends Component{
     constructor(props) {
@@ -71,12 +60,13 @@ class addClientElement extends Component{
 }
 render(){
     return(
-        <div className="container">
-        <div className= "offset-md-2">
+        <div className="container mt-5 card shadowed">
+        <h2>Añadir cliente:</h2>
+        <div className= "offset-md-2 card-block">
         <form onSubmit={this.handleSubmit}>
             <div className="form-group row">
                 <label className="col-md-2 col-form-label">
-                Name:
+                Nombre:
                 </label>
                 <input type="text" value={this.state.formName} onChange={this.handleChangeName} />
                 

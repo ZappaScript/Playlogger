@@ -1,9 +1,6 @@
 import { connect } from 'react-redux'
-import { SET_CONTRACTS, SET_ORDERS, SET_CLIENTS, setClients,setOrders, setContracts, setLoaded } from '../actions.js'
+import { setClients,setOrders, setContracts } from '../actions.js'
 import Index from '../App.js'
-import contract from '../contract';
-
-
 
 const getContracts = (contracts) => {
     return contracts;

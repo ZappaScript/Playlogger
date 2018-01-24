@@ -21,10 +21,13 @@ from marshmallowSchemes import *
 def serve(path):
     if(path == ""):
         return send_from_directory('view/build', 'index.html')
+        print(request)
     else:
         if(os.path.exists("view/build/" + path)):
+            print(request)
             return send_from_directory('view/build', path)
         else:
+            print(request)
             return send_from_directory('view/build', 'index.html')
 
 @app.route("/tablas", methods=["GET"])
