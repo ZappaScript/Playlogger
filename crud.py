@@ -102,23 +102,27 @@ def add_contrato():
 
 @app.route("/orden", methods=["POST"])
 def add_tOrder():
-    contratoPadre = request.json['contratoPadre']
-    numeroOrden = request.json['numeroOrden']
-    tipoDeTransmision = request.json['tipoDeTransmision']
-    horas = request.json['horas']
-    inicio = request.json['inicio']
-    final = request.json['final']
+    data = request.get_json()
+    contratoPadre = data['contratoPadre']
+    numeroOrden = data['numeroOrden']
+    tipoDeTransmision = data['tipoDeTransmision']
+    horas = data['horas']
+    inicio = data['inicio']
+    final = data['final']
+    detalles = data['detalles']
+    
 
-    new_order = ordenesDeTransmision(contratoPadre,numeroOrden,tipoDeTransmision, horas,inicio, final)
+    new_order = ordenesDeTransmision(contratoPadre=contratoPadre,numeroOrden=numeroOrden,tipoDeTransmision=tipoDeTransmision, horas=horas,inicio=inicio, final=final,detalles=detalles)
     try:
         db.session.add(new_order)
         db.session.commit()
+        return jsonify("Succes")
     except exc.IntegrityError as e:
         db.session.rollback()
         print("e.message",e.message)
-        return jsonify(e)
+        return jsonify(e.orig)
 
-    return jsonify(new_order)
+    
 
 
 @app.route("/user", methods=["POST"])

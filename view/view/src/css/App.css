@@ -156,4 +156,9 @@ body{
   opacity: 0.01;
   transition: opacity 300ms ease-in;
 }
-
+.square {
+  justify-content: center;
+  width: 2vw;
+  height: 2vw;
+  padding: auto;
+}

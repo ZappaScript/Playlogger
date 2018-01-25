@@ -4,6 +4,7 @@ from flask_marshmallow import Marshmallow
 from flask import Flask, request, jsonify
 from sqlalchemy import exc
 from sqlalchemy.schema import Column
+from sqlalchemy import JSON
 from sqlalchemy.orm import sessionmaker, scoped_session
 from flask_cors import CORS
 import os
@@ -35,6 +36,7 @@ class ordenesDeTransmision(db.Model):
     horas = db.Column(db.Integer)
     inicio = db.Column(db.Integer)
     final = db.Column(db.Integer)
+    detalles = db.Column(JSON)
     def __repr__(self):
         return '<numeroOrden {}>'.format(self.numeroOrden)
 

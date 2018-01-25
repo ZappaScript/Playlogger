@@ -1,9 +1,11 @@
 
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
-import RouterButton from './routerButton.js';
+
+
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
-import {Table } from 'react-bootstrap';
+
+
+
 class Cert extends Component{
 
 
@@ -30,21 +32,27 @@ render(){
 
 
     return(
-
-        <Table >
+        <ReactCSSTransitionGroup transitionName="example" transitionAppear={true} transitionAppearTimeout={500} transitionEnter={true} transitionLeave={true}>
+            <div className = "container mt-2 shadowed wht pt-2">
+                <div className="aux ">
+                <div className="col">
+       
             { this.state.matriz.map((x,i) => { 
-                return <div  className="row"> {this.state.matriz[i].map( (x, j)  =>  {
+                return <div  className="row justify-content-center"> {this.state.matriz[i].map( (x, j)  =>  {
                     
-                return (<div onClick={this._handleClick.bind(this,i,j)} className={'col-md-1 certComponent'+ (this.state.matriz[i][j]===true ? '':'azul' ) } key={i*j+j} >{i} {j} {this.state.matriz[i][j] ? "true" :"false"} </div>) })} 
+                return (<div onClick={this._handleClick.bind(this,i,j)} className={'square certComponent'+ (this.state.matriz[i][j]===true ? ' azul':'' ) } key={i*j+j} >{this.state.matriz[i][j] ? <i className="fa fa-check" aria-hidden="true"></i>
+                :<i class="fa fa-times" aria-hidden="true"></i>
+            } </div>) })} 
                     </div>
 
              } )}
+            </div>
+            </div>
+            </div>
+        </ReactCSSTransitionGroup>
 
 
-           
-
-
-        </Table>
+        
     );
 
 
