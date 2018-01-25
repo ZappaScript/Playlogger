@@ -60,7 +60,7 @@ class addClientElement extends Component{
 }
 render(){
     return(
-        <div className="container mt-5 card shadowed">
+        <div className="container mt-2 pt-2 card shadowed">
         <h2>Añadir cliente:</h2>
         <div className= "offset-md-2 card-block">
         <form onSubmit={this.handleSubmit}>

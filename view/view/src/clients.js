@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import RouterButton from './routerButton.js'
-
+import RouterButton from './routerButton.js';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
  class Clients extends Component {
     
@@ -10,8 +10,8 @@ import RouterButton from './routerButton.js'
             console.log("this.props.clients",this.props.clients); 
             
               return(
-            
-                <div className="container justify-content-center mt-5 wht shadowed">
+                <ReactCSSTransitionGroup transitionName="example" transitionAppear={true} transitionAppearTimeout={500} transitionEnter={true} transitionLeave={true}>
+                <div className="container justify-content-center mt-2 pt-2 wht shadowed">
                     <div className='row mt-2 ml-2'>  <RouterButton type="cliente" redirectTo="/add/client"/></div>
                     <div className="row mt-2">
                     <div className="col">
@@ -44,7 +44,7 @@ import RouterButton from './routerButton.js'
                     
                 </div>
 
-            
+            </ReactCSSTransitionGroup>
             
           );
 }

@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import RouterButton from './routerButton.js'
+import RouterButton from './routerButton.js';
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+
 
     
 class Contracts extends Component {
     
     render(){
-      
+     
       const {match} = this.props;
       console.log("this.props.contracts",this.props.contracts); 
       return (
-        <div className="container justify-content-center mt-5 shadowed wht">
+        <ReactCSSTransitionGroup transitionName="example" transitionAppear={true} transitionAppearTimeout={500} transitionEnter={true} transitionLeave={true}>
+
+        <div className="container justify-content-center pt-2 mt-2 shadowed wht">
 
           <div className="row mt-2 col">
             <div><RouterButton type="contrato" redirectTo="/add/contract"/> </div>
@@ -42,7 +46,7 @@ class Contracts extends Component {
             </div>
             </div>
             
-        </div>
+        </div></ReactCSSTransitionGroup>
          );
         }
   }

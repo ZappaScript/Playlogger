@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {Table } from 'react-bootstrap';
-import RouterButton from './routerButton.js'
+import RouterButton from './routerButton.js';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
     export class Contract extends Component {
         constructor(props){
@@ -28,7 +29,8 @@ import RouterButton from './routerButton.js'
     
           console.log("Contract and contracts",singleContract, orders);
           return (
-            <div className = "container mt-5 shadowed wht">
+            <ReactCSSTransitionGroup transitionName="example" transitionAppear={true} transitionAppearTimeout={500} transitionEnter={true} transitionLeave={true}>
+            <div className = "container mt-2 shadowed wht pt-2">
             
 
                   
@@ -93,6 +95,7 @@ import RouterButton from './routerButton.js'
             
             
             </div>
+            </ReactCSSTransitionGroup>
           );
         }
       }

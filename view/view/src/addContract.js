@@ -69,7 +69,7 @@ class addContractElement extends Component{
     }
 render(){
     return(
-        <div className="container mt-5 wht shadowed">
+        <div className="container mt-2 pt-2 wht shadowed">
         <h2>Añadir Contrato:</h2>
         <div className= "offset-md-2 ">
         <form onSubmit={this.handleSubmit}>

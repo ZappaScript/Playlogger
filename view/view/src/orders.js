@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom'
-
+import {Link} from 'react-router-dom';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
     
 class Orders extends Component {
   render(){
@@ -8,7 +8,8 @@ class Orders extends Component {
       const {match} = this.props;
       
       return (
-        <div className="row container justify-content-center mt-5 shadowed wht">
+        <ReactCSSTransitionGroup transitionName="example" transitionAppear={true} transitionAppearTimeout={500} transitionEnter={true} transitionLeave={true}>
+        <div className="row container justify-content-center mt-2 pt-2 shadowed wht">
         <div className="col mt-2 mb-2">
          
             <table className="table col table-striped table-hover table-condensed table-sm">
@@ -38,6 +39,7 @@ class Orders extends Component {
           
             </div>
         </div>
+        </ReactCSSTransitionGroup>
          );
         }
   }

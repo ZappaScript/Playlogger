@@ -6,6 +6,8 @@ import singleClientContainer from './client.js';
 import NavBar from './nav.js'
 import addElement from "./addElement.js"
 import ordersContainer from './containers/ordersContainer.js'
+import ReactCSSTransitionGroup from "react-addons-css-transition-group"
+import Cert from './orderCert.js'
 import {
     BrowserRouter as Router,
     Route, 
@@ -19,14 +21,14 @@ class Index extends Component{
     componentWillMount(){
         if(!this.props.loaded){
 
-            fetch("https://juanestrada.pythonanywhere.com/ordenes")
+            fetch("http://localhost:5000/ordenes")
           .then((response) => response.json())
           .then((payload) => { this.props.pushOrders (payload.slice()); })
 
-            fetch("http://juanestrada.pythonanywhere.com/contratos")
+            fetch("http://localhost:5000/contratos")
           .then((response) => response.json())
           .then((payload) => { this.props.pushContracts(payload.slice()); })
-            fetch("http://juanestrada.pythonanywhere.com/clientes")
+            fetch("http://localhost:5000/clientes")
           .then((response) => response.json())
           .then((payload) => { this.props.pushClients(payload.slice()); })
             
@@ -52,7 +54,9 @@ render(){
                    
                     <Route exact={true} path='/add/:toAdd' component={addElement}/>
                     <Route exact={true} path='/add/:toAdd/:param' component={addElement}/>
+                    <Route exact={true} path='/orderCert' component={Cert}/>
                 </Switch>
+            
             </div>
             </div>
         

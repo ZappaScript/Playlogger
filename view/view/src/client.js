@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
-
+import { connect } from 'react-redux';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 
 
@@ -14,7 +14,8 @@ export class Client extends Component {
 
       console.log("client and contracts",client, contracts);
       return (
-        <div className="row">
+        <ReactCSSTransitionGroup transitionName="example" transitionAppear={true} transitionAppearTimeout={500} transitionEnter={true} transitionLeave={true}>
+        <div className="row shadowed wht mt-2 pt-2 ">
           <div className="col-md-2 offset-md-2" >
           
           
@@ -37,7 +38,7 @@ export class Client extends Component {
           
 
         </div>
-        
+        </ReactCSSTransitionGroup>
         
       );
     }

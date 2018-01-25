@@ -35,7 +35,7 @@ import PropTypes from 'prop-types';
             return( 
 
 
-                <div className="container mt-5 card">
+                <div className="container mt-2 pt-2 card">
                 <h2>Añadir orden de transmisión al contrato {this.props.contratoPadre}:</h2>
                 <div className= "offset-md-2 card-block">
                 <form onSubmit={this.handleSubmit}>

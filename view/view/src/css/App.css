@@ -61,7 +61,15 @@
   border-radius: 10px;
 
 }
+.certComponent{
+  border: 1px solid #aaa;
+  background: #ffffff
+}
+
 .wht{background: #ffffff}
+
+.azul{background: #0000FF}
+
 
 body{
   background-image: url('http://localhost:5000/static/media/background.png')
@@ -117,3 +125,35 @@ body{
   display: block;
   margin: 0px auto;
 }
+
+
+
+.example-appear {
+  opacity: 0.01;
+}
+
+.example-appear.example-appear-active {
+  opacity: 1;
+  transition: opacity .15s ease-in;
+}
+
+
+
+.example-enter {
+  opacity: 0.01;
+}
+
+.example-enter.example-enter-active {
+  opacity: 1;
+  transition: opacity 150ms ease-in;
+}
+
+.example-leave {
+  opacity: 1;
+}
+
+.example-leave.example-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
