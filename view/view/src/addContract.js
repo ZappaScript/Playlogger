@@ -109,10 +109,7 @@ render(){
          <input type="submit" value="Submit" />
         </form>
 
-        <p>{this.state.formperteneceA}</p>
-        <p>{this.state.formHorasCompradas}</p>
-        <p>{this.state.formHorasRestantes}</p>
-        <p>{this.state.formHorasNumeroCorrelativo}</p>
+        
         </div></div>
 )}
 

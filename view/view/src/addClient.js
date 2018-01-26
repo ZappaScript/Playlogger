@@ -90,9 +90,6 @@ render(){
 
          <input type="submit" value="Submit" />
         </form>
-        <p>{this.state.formRif}</p>
-        <p>{this.state.formName}</p>
-        <p>{this.state.formRazonSocial}</p>
         </div></div>
 )}
 

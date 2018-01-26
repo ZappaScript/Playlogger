@@ -31,7 +31,7 @@ class Contracts extends Component {
                 <th>Horas Restantes</th>
                 <th>Número Correlativo</th>
               </tr> 
-              { this.props.contracts.filter((contract)=>{ return (contract.numeroCorrelativo==this.props.getSearch() ||  this.props.getSearch() == "")  } ).map( (contract,i) => {return (
+              { this.props.contracts.filter((contract)=>{ return (contract.numeroCorrelativo.toString().indexOf(this.props.getSearch())!=-1 ||  this.props.getSearch() == "")  } ).map( (contract,i) => {return (
                 <tr key={i}>
                   <td><div>{contract.perteneceA}</div></td>
                   <td><div>{contract.horasCompradas}</div></td>
