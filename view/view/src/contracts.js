@@ -27,8 +27,8 @@ class Contracts extends Component {
               <tbody>
               <tr>
                 <th>RIF Cliente</th>
-                <th>Horas Compradas</th>
-                <th>Horas Restantes</th>
+                <th>Inventario comprado</th>
+                <th>Inventario restante</th>
                 <th>Número Correlativo</th>
               </tr> 
               { this.props.contracts.filter((contract)=>{ return (contract.numeroCorrelativo.toString().indexOf(this.props.getSearch())!=-1 ||  this.props.getSearch() == "")  } ).map( (contract,i) => {return (

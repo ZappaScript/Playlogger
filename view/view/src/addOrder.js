@@ -14,9 +14,9 @@ import PropTypes from 'prop-types';
                 horas : 0,
                 inicio : 0,
                 final : 0,
-                detalles : { tipo:'Selectivo' , transmisiones:["sa","sb","sc","sd"] },
+                detalles : { tipo:'Selectivo' , transmisiones:[{dia:"sa",hora:""},{dia:"sa",hora:""},{dia:"sa",hora:""},{dia:"sa",hora:""}] },
                 tipoDeTransmision: "placeholder",
-                numeroOrden:Math.random()*10000
+                numeroOrden:Math.floor(Math.random()*10000)
                 }
 
             this.handleChangeFinal=this.handleChangeFinal.bind(this);
@@ -26,14 +26,32 @@ import PropTypes from 'prop-types';
             this.handleSubmit = this.handleSubmit.bind(this);
             this.handleChangeNOrden = this.handleChangeNOrden.bind(this);
             this.addTransmisionSelectivo = this.addTransmisionSelectivo.bind(this)
+            this.handleChangeDetalleDia = this.handleChangeDetalleDia.bind(this)
+            this.handleChangeDetalleHora = this.handleChangeDetalleHora.bind(this)
+            
         }
+        
 
 
         handleChangeFinal = (event) => { this.setState({final: event.target.value});}
-        handleChangeHorasCompradas = (event) => { this.setState({horasCompradas: event.target.value});}
+        handleChangeHorasCompradas = (event) => { this.setState({horas: event.target.value});}
         handleChangeInicio = (event) => {this.setState({inicio: event.target.value});}
         handleChangeNOrden = (event) => {this.setState({numeroOrden: event.target.value});}
         
+        handleChangeDetalleDia = (b,event) => {
+            let newState = this.state.detalles.transmisiones.slice()
+            newState[b].dia =event.target.value;
+            this.setState ({tipo:'Selectivo',transmisiones:newState })
+
+
+        }
+        handleChangeDetalleHora = (b,event) => {
+            let newState = this.state.detalles.transmisiones.slice()
+            newState[b].hora =event.target.value;
+            this.setState ({tipo:'Selectivo',transmisiones:newState })
+
+
+        }
         
         handleChangeTipo = (event) => {
             switch (event.target.value){
@@ -55,7 +73,7 @@ import PropTypes from 'prop-types';
            'final' : this.state.final,
             'horas': this.state.horas,
             'inicio': this.state.inicio,
-            'detalles': this.state.detalles,
+            'detalles': JSON.stringify(this.state.detalles),
             'tipoDeTransmision':this.state.tipoDeTransmision
         };
         
@@ -105,7 +123,15 @@ import PropTypes from 'prop-types';
                         <label className="col-md-2 col-form-label">
                         Inicio :
                         </label>
-                        <input type="text" value={this.state.inicio} onChange={this.handleChangeInicio} />
+                        <input type="date" value={this.state.inicio} onChange={this.handleChangeInicio} />
+                        
+                    </div>
+
+                    <div className="form-group row">
+                        <label className="col-md-2 col-form-label">
+                        Final:
+                        </label>
+                        <input type="date" value={this.state.final} onChange={this.handleChangeFinal} />
                         
                     </div>
 
@@ -117,13 +143,7 @@ import PropTypes from 'prop-types';
                         
                     </div>
 
-                    <div className="form-group row">
-                        <label className="col-md-2 col-form-label">
-                        Final:
-                        </label>
-                        <input type="text" value={this.state.final} onChange={this.handleChangeFinal} />
-                        
-                    </div>
+                    
                     
                     <div className="form-group row">
                         <label className="col-md-2 col-form-label">
@@ -139,12 +159,16 @@ import PropTypes from 'prop-types';
                     { (this.state.error =="UNIQUE")  && <h2>Este registro ya existe</h2>}
 
                     </div>
-                    {this.state.detalles.tipo =='Selectivo' && <button className ='btn row' type="button" onClick={this.addTransmisionSelectivo} /> }
+                    {this.state.detalles.tipo =='Selectivo' && <button className ='btn row' value="Añadir entrada" type="button" onClick={this.addTransmisionSelectivo} >Añadir entrada</button> }
                     <div className="form-group row">
                     
                         <div className='col'>
                         { this.state.detalles.tipo =='Selectivo' && this.state.detalles.transmisiones.map( (a,b)=> { 
-                            return <div className='row'> <input type="text" value={this.state.detalles.transmisiones[b]} onChange={this.handleChangeFinal} /></div>})}
+                            return <div className='row mt-2'> 
+                                <input type="date" value={this.state.detalles.transmisiones[b].dia} onChange={this.handleChangeDetalleDia.bind(this,b)} />
+                                <input type="time" value={this.state.detalles.transmisiones[b].hora} onChange={this.handleChangeDetalleHora.bind(this,b)} />
+                                
+                                </div>})}
                         </div>
 
                     </div>

@@ -1,0 +1,1 @@
+mysql+pymysql://JuanEstrada:justapasswordformysql@JuanEstrada.mysql.pythonanywhere-services.com/JuanEstrada$Playlogger_db

@@ -34,9 +34,10 @@ class ordenesDeTransmision(db.Model):
     numeroOrden = db.Column(db.Integer, primary_key= True)
     tipoDeTransmision = db.Column(db.String(120))
     horas = db.Column(db.Integer)
-    inicio = db.Column(db.Integer)
-    final = db.Column(db.Integer)
-    detalles = db.Column(JSON)
+    inicio = db.Column(db.Date)
+    final = db.Column(db.Date)
+  ##  detalles = db.Column(JSON)
+    detalles = db.Column(db.Text)
     def __repr__(self):
         return '<numeroOrden {}>'.format(self.numeroOrden)
 

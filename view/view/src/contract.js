@@ -39,8 +39,8 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
               <tr>
                 <th>Numero Correlativo</th>
                 <th>Cliente</th>
-                <th>Horas Compradas</th>
-                <th>Horas Restantes</th>
+                <th>Inventario restante</th>
+                <th>Inventario restante</th>
                 
                 
 
@@ -76,7 +76,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
                     <td>{order.numeroOrden}</td>
                     <td>{order.tipoDeTransmision}</td>
                     <td>{order.horas}</td>
-                    <td>{order.inicios}</td>
+                    <td>{order.inicio}</td>
                     <td>{order.final}</td>
                     </tr>
                     )
