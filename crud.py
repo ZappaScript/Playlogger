@@ -110,6 +110,7 @@ def add_tOrder():
     inicio = data['inicio']
     final = data['final']
     detalles = data['detalles']
+    print (inicio,final)
     
 
     new_order = ordenesDeTransmision(contratoPadre=contratoPadre,numeroOrden=numeroOrden,tipoDeTransmision=tipoDeTransmision, horas=horas,inicio=inicio, final=final,detalles=detalles)
