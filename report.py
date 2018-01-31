@@ -47,9 +47,16 @@ outerStyle = TableStyle([
 
 headerStyle = TableStyle([
     ('FONTSIZE', (0, 0), (-1, 1), 8),
-    ('BACKGROUND', (0, 0), (4, 0), colors.gray),
-    ('INNERGRID', (0, 0), (-1, 0), 0.25, colors.black),
-    ('BOX', (0, 0), (-1, -1), 0.25, colors.black)
+    ('INNERGRID', (0, 0), (-1, 1), 0.25, colors.black),
+    ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
+    
+    ('SPAN', (0,0), (0,1 )),
+    ('SPAN', (1,0), (1,1 )),
+    ('SPAN', (2,0), (2,1 )),
+    ('SPAN', (3,0), (3,1 )),
+    ('SPAN', (4,0), (4,1 )),
+    ('SPAN', (5,0), (5,1 ))
+    
     
     
     ])
@@ -141,8 +148,7 @@ def genReport(time1,time2):
 
 def tabStyle(nColumns):
     return TableStyle([
-     ('FONTSIZE', (0, 0), (-1, 1), 8),   
-    ('BACKGROUND', (0, 0), (4, 0), colors.gray),
+     ('FONTSIZE', (0, 0), (-1, 1), 8),
     ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
     ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
     ('ALIGN', (0,0), (-1,0), 'CENTER'),
@@ -167,14 +173,14 @@ def renderReport( calendar, t1,t2 ):
                 x= calendar[year][month]['week1']
                 t = Table(createWeekTable (x,year,month,0), colWidths=None, rowHeights=None, style = tabStyle(len(x)))
                 ##t = Table([calendar[year][month]['week1']], colWidths=None, rowHeights=None,style = tabStyle )
-                lst.append(Table( [[leftSide(),t]] ,colWidths=None, rowHeights=None, style =outerStyle, hAlign='LEFT') )
+                lst.append(Table( [[leftSide(),t]] ,colWidths=None, rowHeights=(2*inch), style =outerStyle, hAlign='LEFT') )
                 lst.append(PageBreak())
                 print ("week 1 has orders")
             if(hasOrders(calendar[year][month]['week2'])):
                 x= calendar[year][month]['week2']
                 t = Table(createWeekTable (x,year,month,1), colWidths=None, rowHeights=None, style = tabStyle(len(x)))
                 ##t = Table([calendar[year][month]['week2']], colWidths=None, rowHeights=None, style = tabStyle)
-                lst.append(Table( [[leftSide(),t]],colWidths=None, rowHeights=None, style =outerStyle, hAlign ='LEFT' ) )
+                lst.append(Table( [[leftSide(),t]],colWidths=None, rowHeights=(2*inch), style =outerStyle, hAlign ='LEFT' ) )
                 lst.append(PageBreak())
                 print ("week 2 has orders")
                 
@@ -189,7 +195,7 @@ def leftSide():
     something = [""] * len(header)
     something[2] = "Region"
     padding = body = [""] * len(header)
-    return Table([header,body,something,padding],colWidths=None, rowHeights=None, style =headerStyle )     
+    return Table([header,padding,body,padding,padding,padding,padding,something,padding,padding],colWidths=None, rowHeights=None, style =headerStyle )     
 
 def addOrdersToCalendar(orders,calendar):
     for order in orders:
