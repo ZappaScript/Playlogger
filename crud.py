@@ -100,6 +100,12 @@ def add_contrato():
     return jsonify(contrato_schema.dump(new_contrato))
 
 
+
+@app.route("/orden/preview", methods=["POST"])
+def order_Preview:
+    data = request.json()
+    
+
 @app.route("/orden", methods=["POST"])
 def add_tOrder():
     data = request.get_json()

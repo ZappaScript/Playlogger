@@ -7,6 +7,7 @@ from sqlalchemy.schema import Column
 from sqlalchemy import JSON
 from sqlalchemy.orm import sessionmaker, scoped_session
 from flask_cors import CORS
+from report import *
 import os
 
 app = Flask(__name__,static_folder='view/build')
