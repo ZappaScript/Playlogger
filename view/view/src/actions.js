@@ -3,6 +3,11 @@ export const SET_CLIENTS = 'SET_CLIENTS'
 export const SET_CONTRACTS= 'SET_CONTRACTS'
 export const SET_ORDERS = 'SET_ORDERS'
 export const SET_LOADED = 'SET_LOADED'
+export const SET_MEDIAS = 'SET_MEDIAS'
+export const SET_CANALES = 'SET_CANALES'
+export const SET_ESPECIFICACIONES = 'SET_ESPECIFICACIONES'
+
+
 export const SET_SEARCH = 'SET_SEARCH'
 export const ADD_CONTRACT = 'ADD_CONTRACT'
 export const ADD_CLIENT = 'ADD_CLIENT'
@@ -25,6 +30,25 @@ export function setOrders(orders) {
     return { type: SET_ORDERS, orders }
 
 }
+
+export function setMedias(medias) {
+    
+    return { type: SET_MEDIAS, medias }
+
+}
+
+export function setCanales(canales) {
+    
+    return { type: SET_CANALES, canales }
+
+}
+
+export function setEspecificaciones(especificaciones) {
+    
+    return { type: SET_ESPECIFICACIONES, especificaciones }
+
+}
+
 
 export function setLoaded(loaded){
 

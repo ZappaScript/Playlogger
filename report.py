@@ -1,12 +1,12 @@
 from datetime import datetime, date, time, timedelta
 import calendar
-print calendar.isleap(1900)
+##print calendar.isleap(1900)
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter, inch, landscape
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from reportlab.platypus.flowables import PageBreak
 import random
-
+import cStringIO
 
 doc = SimpleDocTemplate("simple_table_grid.pdf",leftMargin=0.2*inch, rightMargin= 0.2*inch, pagesize=landscape(letter))
 lst = [] ##this will contain all the dataframes 
@@ -116,7 +116,7 @@ def appendToDateObject(time,arrayDateRange):
     if (time.day<=15):
         arrayDateRange[time.year][time.month]['week1'][time.day-1]=transmision(0,time)
     if (time.day>15):
-        print('day:', time.day)
+        ##print('day:', time.day)
         arrayDateRange[time.year][time.month]['week2'][time.day-16]=transmision(0,time)
     
 
@@ -127,7 +127,7 @@ def genCalendar(time1,time2):
     dateRange = {}
     timeDelta = time2 - time1
     for i in range(time1.year,time2.year + 1 ,1):
-        print (i, time1.year, time2.year)
+        ##print (i, time1.year, time2.year)
         dateRange[i] = returnDateObject(i) 
 
 
@@ -135,15 +135,15 @@ def genCalendar(time1,time2):
         toAppend = time1 + timedelta(days=z)
         dateRange = appendToDateObject(toAppend,dateRange)
     
-    print dateRange
+    ##print dateRange
     return dateRange
 
 
-def genReport(time1,time2):
+def genReport(target, time1, time2):
     dt1 = datetime.strptime(time1, "%Y-%m-%d")
     dt2 = datetime.strptime(time2, "%Y-%m-%d")
     calendar = genCalendar(dt1,dt2)
-    renderReport(calendar, dt1,dt2)
+    renderReport(target, calendar, dt1, dt2)
     
 
 def tabStyle(nColumns):
@@ -159,15 +159,15 @@ def tabStyle(nColumns):
 def hasOrders(week):
     for day in week:
         if day !=None:
-            print("Returning true")
+            ##print("Returning true")
             return True
-    print("Returning false")
+    ##print("Returning false")
     return False
 
-def renderReport( calendar, t1,t2 ):
+def renderReport(target, calendar, t1, t2 ):
     
     for year in range(t1.year,t2.year + 1):
-        print("year:",year)
+        ##print("year:",year)
         for month in range(1,13):
             if(hasOrders(calendar[year][month]['week1'])):
                 x= calendar[year][month]['week1']
@@ -175,16 +175,16 @@ def renderReport( calendar, t1,t2 ):
                 ##t = Table([calendar[year][month]['week1']], colWidths=None, rowHeights=None,style = tabStyle )
                 lst.append(Table( [[leftSide(),t]] ,colWidths=None, rowHeights=(2*inch), style =outerStyle, hAlign='LEFT') )
                 lst.append(PageBreak())
-                print ("week 1 has orders")
+                ##print ("week 1 has orders")
             if(hasOrders(calendar[year][month]['week2'])):
                 x= calendar[year][month]['week2']
                 t = Table(createWeekTable (x,year,month,1), colWidths=None, rowHeights=None, style = tabStyle(len(x)))
                 ##t = Table([calendar[year][month]['week2']], colWidths=None, rowHeights=None, style = tabStyle)
                 lst.append(Table( [[leftSide(),t]],colWidths=None, rowHeights=(2*inch), style =outerStyle, hAlign ='LEFT' ) )
                 lst.append(PageBreak())
-                print ("week 2 has orders")
+                ##print ("week 2 has orders")
                 
-    doc.build(lst)
+    target.build(lst)
 
             
             
@@ -197,7 +197,13 @@ def leftSide():
     padding = body = [""] * len(header)
     return Table([header,padding,body,padding,padding,padding,padding,something,padding,padding],colWidths=None, rowHeights=None, style =headerStyle )     
 
-def addOrdersToCalendar(orders,calendar):
-    for order in orders:
-        print("Hello")
+##def addOrdersToCalendar(orders,calendar):
+  ##  for order in orders:
+        ##print("Hello")
     
+def previewPDF(data):
+    buf = cStringIO.StringIO()
+    doc = SimpleDocTemplate(buf,leftMargin=0.2*inch, rightMargin= 0.2*inch, pagesize=landscape(letter))
+    genReport(doc, data['inicio'], data['final'])
+    ##print('buf',buf.getvalue())
+    return buf.getvalue()

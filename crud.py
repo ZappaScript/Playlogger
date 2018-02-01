@@ -74,21 +74,40 @@ def get_cliente_by(nRif):
 
 @app.route("/clientes", methods=["GET"])
 def get_clientes():
-    all_Clients = Clientes.query.all()
-    result = clients_schema.dump(all_Clients)
+    all = Clientes.query.all()
+    result = clients_schema.dump(all)
     return jsonify(result.data)
+
+@app.route("/medios", methods=["GET"])
+def get_medios():
+    all = Media.query.all()
+    result = medias_schema.dump(all)
+    return jsonify(result.data)
+
+@app.route("/canales", methods=["GET"])
+def get_canales():
+    all = Canal.query.all()
+    result = canales_schema.dump(all)
+    return jsonify(result.data)
+
+@app.route("/especificaciones", methods=["GET"])
+def get_especificaciones():
+    all = EspecificacionOrden.query.all()
+    result = especificaciones_schema.dump(all)
+    return jsonify(result.data)
+
 
 
 @app.route("/contrato", methods=["POST"])
 def add_contrato():
-    jsonData = request.get_json()
-    numeroCorrelativo = jsonData['numeroCorrelativo']
-    horasCompradas = jsonData['horasCompradas']
-    horasRestantes = jsonData['horasCompradas']
-    perteneceA = jsonData['perteneceA']
+    data = request.get_json()
+    print(data)
     
-    
-    new_contrato= Contratos(numeroCorrelativo=numeroCorrelativo,horasCompradas=horasCompradas,horasRestantes=horasRestantes,perteneceA=perteneceA)
+    new_contrato= Contratos(numeroCorrelativo=data['numeroCorrelativo'],
+                            id_medio= data['id_medio'], 
+                            horasCompradas=data['horasCompradas'],
+                            horasRestantes=data['horasRestantes'],
+                            perteneceA=data['perteneceA'])
     try:
         db.session.add(new_contrato)
         db.session.commit()
@@ -101,9 +120,17 @@ def add_contrato():
 
 
 
-@app.route("/orden/preview", methods=["POST"])
-def order_Preview:
-    data = request.json()
+@app.route("/pdfpreview", methods=["POST"])
+def order_Preview():
+    data = request.get_json()
+    pdfData = previewPDF(data)
+    ##print ('pdfData',pdfData)
+    response = make_response(pdfData)
+    response.headers.set('Content-Disposition', 'attachment', filename='preview' + '.pdf')
+    response.headers.set('Content-Type', 'application/pdf')
+
+    
+    return response
     
 
 @app.route("/orden", methods=["POST"])
@@ -152,6 +179,46 @@ def add_client():
         return jsonify(e)
 
     return jsonify(client_schema.dump(new_client))
+
+
+
+@app.route("/media", methods=["POST"])
+def add_media():
+    data = request.get_json()
+    
+    try:
+        db.session.add( Media( nombre =data['nombre'] ) )
+        db.session.commit()
+        return jsonify("Success")
+    except exc.IntegrityError as e:
+        db.session.rollback()
+        print("e.message",e.message)
+        return jsonify(e.orig)
+
+@app.route("/canal", methods=["POST"])
+def add_canal():
+    data = request.get_json()
+    try:
+        db.session.add(Canal(id_medio = data['id_medio'],nombre = data['nombre']))
+        db.session.commit()
+        return jsonify("Succes")
+    except exc.IntegrityError as e:
+        db.session.rollback()
+        print("e.message",e.message)
+        return jsonify(e.orig)
+
+@app.route("/especificacion", methods=["POST"])
+def add_especificacion():
+    data = request.get_json()
+    try:
+        db.session.add(EspecificacionOrden(id_canal = data['id_canal'],tipo_transmision= data['tipo_transmision'],costo_transmision = data['costo_transmision'], nombre = data['nombre'], especificacion = data['especificacion'] ))
+        db.session.commit()
+        return jsonify("Succes")
+    except exc.IntegrityError as e:
+        db.session.rollback()
+        print("e.message",e.message)
+        return jsonify(e.orig)
+
 
 
 if __name__ == '__main__':

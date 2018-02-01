@@ -5,11 +5,20 @@ import {addContract} from './actions.js';
 class addContractElement extends Component{
     constructor(props) {
         super(props);
-        this.state= {formperteneceA:"",formHorasCompradas:"",formHorasRestantes:"",formNumeroCorrelativo:"",error:""}
+        this.state= {
+            formperteneceA:"",
+            formHorasCompradas:"",
+            formHorasRestantes:"",
+            formNumeroCorrelativo:"",
+            error:"",
+            network:""
+        
+        }
         this.handleChangeperteneceA = this.handleChangeperteneceA.bind(this);
         this.handleChangeHorasCompradas = this.handleChangeHorasCompradas.bind(this);
         this.handleChangeHorasRestantes = this.handleChangeHorasRestantes.bind(this);
         this.handleChangeNumeroCorrelativo = this.handleChangeNumeroCorrelativo.bind(this);
+        this.handleChangeNetwork = this.handleChangeNetwork.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
       }
@@ -42,13 +51,22 @@ class addContractElement extends Component{
 
 
     }
+
+    handleChangeNetwork = (event) =>{
+        this.setState (  {network: event.target.value} )
+        console.log(this.props.media)
+        console.log('event value', event.target.value)
+        console.log('state value',this.state.network)
+
+    }
     handleSubmit = (event) =>{
         event.preventDefault();
         var payload = {
            'perteneceA' : this.state.formperteneceA,
             'horasCompradas': this.state.formHorasCompradas,
             'horasRestantes': this.state.formHorasRestantes,
-            'numeroCorrelativo': this.state.formNumeroCorrelativo
+            'numeroCorrelativo': this.state.formNumeroCorrelativo,
+            'id_medio':this.state.network
         };
         
         var data = new FormData();
@@ -98,6 +116,13 @@ render(){
                 <input type="text" value={this.state.formHorasRestantes} onChange={this.handleChangeHorasRestantes} />
                 
             </div>
+
+            <div className="form-group row">
+            <select name="Medios" value = {this.state.network} onChange={this.handleChangeNetwork}>
+                {this.props.media.map( (media)=>{ return <option value={media.id}> {media.nombre}</option> } )}
+            </select>
+            </div>
+
             
             <div className="form-group row">
                 <label className="col-md-2 col-form-label">
@@ -115,10 +140,15 @@ render(){
 
 }
 
+const getMedia = (medias) =>{
+    return medias;
+}
 
 
-const mapStateToProps = ()=>{
-    return{}
+const mapStateToProps = state =>{
+    return{
+        media : getMedia(state.media)
+    }
 }
 
 const mapDispatchToProps = dispatch => {

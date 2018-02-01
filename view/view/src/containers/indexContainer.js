@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { setClients,setOrders, setContracts } from '../actions.js'
+import { setClients,setOrders, setContracts, setMedias,setCanales,setEspecificaciones } from '../actions.js'
 import Index from '../App.js'
 
 const getContracts = (contracts) => {
@@ -18,13 +18,20 @@ const getLoaded= (loaded) => {
     return loaded;
     }
 
+const debugPrinter = (state) =>{
+    console.log(state);
+
+
+}
+
 const mapStateToProps = state => {
       
     return {
       contracts: getContracts(state.contracts),
       orders: getOrders(state.orders),
       clients: getClients(state.clients),
-      loaded: getLoaded(state.loaded)
+      loaded: getLoaded(state.loaded),
+      printDebug : debugPrinter.bind(this,state)
     }
   }
 
@@ -32,7 +39,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return{
-        
+        pushOrders: (payload) => {
+            dispatch(setOrders(payload))
+          },
+
         pushContracts: (payload) => {
             dispatch(setContracts(payload))
           },
@@ -41,8 +51,14 @@ const mapDispatchToProps = dispatch => {
             dispatch(setClients(payload))
           },
 
-        pushOrders: (payload) => {
-              dispatch(setOrders(payload))
+        pushMedias: (payload) => {
+              dispatch(setMedias(payload))
+        },
+        pushCanales: (payload) => {
+            dispatch(setCanales(payload))
+        },
+        pushEspecificaciones: (payload) => {
+            dispatch(setEspecificaciones(payload))
         }
         
         

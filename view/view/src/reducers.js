@@ -1,4 +1,4 @@
-import {SET_CLIENTS,SET_CONTRACTS,SET_ORDERS, SET_LOADED, SET_SEARCH, ADD_CLIENT, ADD_CONTRACT, ADD_ORDER} from './actions.js'
+import {SET_CLIENTS,SET_CONTRACTS,SET_ORDERS, SET_LOADED, SET_SEARCH,SET_MEDIAS,SET_CANALES,SET_ESPECIFICACIONES, ADD_CLIENT, ADD_CONTRACT, ADD_ORDER} from './actions.js'
 
 const initialState = {
 
@@ -8,8 +8,13 @@ const initialState = {
 
     orders:[],
 
+    media:[],
+    canales:[],
+    especificaciones:[],
+
     loaded: false,
     search: ""
+
 
 }
 
@@ -30,6 +35,22 @@ function contratosApp(state = initialState, action) {
         return Object.assign({}, state, {
         orders: action.orders
         })
+      
+      case SET_MEDIAS:
+        return Object.assign({}, state, {
+        media: action.medias
+        })
+      
+      case SET_CANALES:
+        return Object.assign({}, state, {
+        canales: action.canales
+        })
+        
+      case SET_ESPECIFICACIONES:
+        return Object.assign({}, state, {
+        especificaciones: action.especificaciones
+        })
+      
       
       case SET_LOADED:
         return Object.assign({}, state, {
@@ -54,7 +75,7 @@ function contratosApp(state = initialState, action) {
           
           orders : state.orders.concat([action.order])
         })
-    
+        
     default:
         return state
     }

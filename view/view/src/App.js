@@ -28,11 +28,24 @@ class Index extends Component{
             fetch("http://localhost:5000/contratos")
           .then((response) => response.json())
           .then((payload) => { this.props.pushContracts(payload.slice()); })
+            
             fetch("http://localhost:5000/clientes")
           .then((response) => response.json())
           .then((payload) => { this.props.pushClients(payload.slice()); })
+
+            fetch("http://localhost:5000/medios")
+          .then((response) => response.json())
+          .then((payload) => { this.props.pushMedias(payload.slice()); })
             
-        }
+            fetch("http://localhost:5000/canales")
+          .then((response) => response.json())
+          .then((payload) => { this.props.pushCanales(payload.slice()); })
+        
+            fetch("http://localhost:5000/especificaciones")
+        .then((response) => response.json())
+        .then((payload) => { this.props.pushEspecificaciones(payload.slice()); this.props.printDebug();})}
+    
+    
     }
 
 render(){

@@ -14,9 +14,11 @@ import PropTypes from 'prop-types';
                 horas : 0,
                 inicio : 0,
                 final : 0,
-                detalles : { tipo:'Selectivo' , transmisiones:[{dia:"sa",hora:""},{dia:"sa",hora:""},{dia:"sa",hora:""},{dia:"sa",hora:""}] },
+                detalles : { tipo:'selectivo' , transmisiones:[] },
                 tipoDeTransmision: "placeholder",
-                numeroOrden:Math.floor(Math.random()*10000)
+                numeroOrden:Math.floor(Math.random()*10000),
+                id_canal:-1,
+                especificacion:-1
                 }
 
             this.handleChangeFinal=this.handleChangeFinal.bind(this);
@@ -28,6 +30,8 @@ import PropTypes from 'prop-types';
             this.addTransmisionSelectivo = this.addTransmisionSelectivo.bind(this)
             this.handleChangeDetalleDia = this.handleChangeDetalleDia.bind(this)
             this.handleChangeDetalleHora = this.handleChangeDetalleHora.bind(this)
+            this.handleChangeCanal = this.handleChangeCanal.bind(this)
+            this.preview = this.preview.bind(this)
             
         }
         
@@ -40,6 +44,7 @@ import PropTypes from 'prop-types';
         
         handleChangeDetalleDia = (b,event) => {
             let newState = this.state.detalles.transmisiones.slice()
+            console.log (newState,b,newState[b])
             newState[b].dia =event.target.value;
             this.setState ({tipo:'Selectivo',transmisiones:newState })
 
@@ -47,22 +52,64 @@ import PropTypes from 'prop-types';
         }
         handleChangeDetalleHora = (b,event) => {
             let newState = this.state.detalles.transmisiones.slice()
+            console.log (newState,b,newState[b])
             newState[b].hora =event.target.value;
             this.setState ({tipo:'Selectivo',transmisiones:newState })
 
 
         }
         
-        handleChangeTipo = (event) => {
-            switch (event.target.value){
-                case 'Selectivo':
-                    this.setState({detalles: { tipo:event.target.value , transmisiones:["sa","sb","sc","sd"] }});
-                case 'Rotativo':
-                    this.setState({detalles: { tipo:event.target.value , transmisiones:[""] }});
 
+        preview = () => {
+            if(this.state.inicio==0 || this.state.final==0)
+                return;
+                fetch("http://localhost:5000/pdfpreview",
+                {
+                    method: "post",
+                    headers: { 'Accept': 'application/json',
+                        'Content-Type':'application/json'}
+                , body: JSON.stringify(
+                    {'inicio':this.state.inicio,'final':this.state.final }
+                
+                )
+                }).then((reponse)=> { return reponse.blob()}).then((reponse)=> {
+        
+                var url = URL.createObjectURL(reponse);
+                var a = document.createElement("a");
+                document.body.appendChild(a);
+                a.style = "display: none";
+                a.href = url;
+                a.download =this.props.contratoPadre+'_'+this.state.numeroOrden +'_preview.pdf';
+                a.target = '_blank';
+                a.click();    
+        
+        
+        
+                })
+
+
+        }
+        handleChangeTipo = (event) => {
+            
+            var tipo = this.props.getEspecificacion(event.target.value).pop()
+            console.log(tipo.tipo_transmision)
+            this.setState({especificacion:event.target.value})
+            console.log(this.state.detalles, tipo.tipo_transmision)
+            switch (tipo.tipo_transmision){
+                case 'selectivo':
+                    console.log("does not enter")
+                    this.setState({detalles: { tipo:'selectivo' , transmisiones:[{ dia:"",hora:""}] }});
+                    return;
+                case 'rotativo':
+                    this.setState({detalles: { tipo:'rotativo' , transmisiones:[{ dia:"",hora:""}]}});
+                    return;
             }
             
         
+        }
+        handleChangeCanal = (event) => {
+            this.setState({id_canal:event.target.value})
+
         }
         
         handleSubmit = (event) => {
@@ -96,12 +143,16 @@ import PropTypes from 'prop-types';
     }
         addTransmisionSelectivo = () => {
             let result = this.state.detalles.transmisiones
-            result.push("")
+            result.push({dia:"",hora:""})
             this.setState( {detalles:{ tipo:this.state.detalles.tipo, transmisiones:result } })
 
         }
         render(){
-            console.log(this.state.detalles)
+            
+            var id_medio = this.props.getContratoPadre(this.props.contratoPadre).id_medio
+            console.log(this.props.getEspecificaciones(this.state.id_canal))
+            
+            console.log(this.state.id_canal)
             return( 
 
 
@@ -109,8 +160,18 @@ import PropTypes from 'prop-types';
                 <h2>Añadir orden de transmisión al contrato {this.props.contratoPadre}:</h2>
                 <div className= "offset-md-2 card-block">
                 <form onSubmit={this.handleSubmit}>
-                    <div className="form-group row">
+                
+                
+                <div className="form-group row">
         
+                    <select name="Canales" value = {this.state.id_canal} onChange={this.handleChangeCanal}>
+                        <option selected hidden>Canal</option>
+                        {this.props.getCanales(id_medio).map( (canal)=>{ return <option value={canal.id}> {canal.nombre}</option> } )}
+                    </select>
+                
+                </div>    
+                    <div className="form-group row">
+                
                         
                         <label className="col-md-2 col-form-label">
                         A debitar :
@@ -135,6 +196,8 @@ import PropTypes from 'prop-types';
                         
                     </div>
 
+                    
+                    
                     <div className="form-group row">
                         <label className="col-md-2 col-form-label">
                         Número de la order :
@@ -150,20 +213,20 @@ import PropTypes from 'prop-types';
                         Tipo:
                         </label>
                         
-                        <select name="cars" type="text" value={this.state.detalles.tipo} onChange={this.handleChangeTipo}>
-                        <option value="Selectivo">Selectivo</option>
-                        <option value="Rotativo">Rotativo</option>
-                        
+                        <select name="especificaciones" type="text" value={this.state.especificacion} onChange={this.handleChangeTipo}>
+                            <option selected hidden>Tipo</option>
+                        {this.props.getEspecificaciones(this.state.id_canal).map(especificacion => { 
+                            return <option value={ especificacion.id}>{especificacion.nombre}</option>}  )}
                         </select>
                     
                     { (this.state.error =="UNIQUE")  && <h2>Este registro ya existe</h2>}
 
                     </div>
-                    {this.state.detalles.tipo =='Selectivo' && <button className ='btn row' value="Añadir entrada" type="button" onClick={this.addTransmisionSelectivo} >Añadir entrada</button> }
+                    {this.state.detalles.tipo =='selectivo' && <button className ='btn row' value="Añadir entrada" type="button" onClick={this.addTransmisionSelectivo} >Añadir entrada</button> }
                     <div className="form-group row">
                     
                         <div className='col'>
-                        { this.state.detalles.tipo =='Selectivo' && this.state.detalles.transmisiones.map( (a,b)=> { 
+                        { this.state.detalles.tipo =='selectivo' && this.state.detalles.transmisiones.map( (a,b)=> { 
                             return <div className='row mt-2'> 
                                 <input type="date" value={this.state.detalles.transmisiones[b].dia} onChange={this.handleChangeDetalleDia.bind(this,b)} />
                                 <input type="time" value={this.state.detalles.transmisiones[b].hora} onChange={this.handleChangeDetalleHora.bind(this,b)} />
@@ -173,9 +236,15 @@ import PropTypes from 'prop-types';
 
                     </div>
 
-                 <input type="submit" className="btn btn-primary" value="Submit" />
+
+
+
+                 <input type="submit" className="btn btn-primary row" value="Submit" />
+                
                 </form>
-        
+                <div className="form-group row mt-2">
+                    <button className ='btn btn-outline-primary' value="preview" type="button" onClick={this.preview} >Preview</button> 
+                </div>
            
                 </div></div>
            )
@@ -210,12 +279,34 @@ import PropTypes from 'prop-types';
         return {
             getContratoPadre: (contratoPadre) => { 
                 return (state.contracts.filter( (contract) => {
-                    console.log( typeof contract.numeroCorrelativo, typeof contratoPadre)
+                    
                     return(contract.numeroCorrelativo === contratoPadre)
-                })
+                }).pop()
                 )
             },
-            getOrders: getOrders(state.orders)
+            getOrders: getOrders(state.orders),
+            getCanales: (id_medio)=>{
+                return (state.canales.filter ( (canal)=> {
+                    return (canal.id_medio===id_medio)
+                } ))
+
+            },
+            getEspecificaciones: (id_canal)=> {
+                return (state.especificaciones.filter( (especificacion)=> {
+                    console.log('especificacion.id_canal' ,'id_canal',typeof especificacion.id_canal, typeof id_canal)
+                    return(especificacion.id_canal ==id_canal )
+                } ))
+
+            },
+            getEspecificacion : (id) => {
+                return (state.especificaciones.filter(especificacion => {
+                    return (especificacion.id == id)
+
+
+                }))
+
+
+            }
 
         }
     }
