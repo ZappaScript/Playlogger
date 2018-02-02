@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {addClient} from './actions.js'
 import {connect} from 'react-redux'
+import serverURL from './serverURL.js'
 
 
 class addClientElement extends Component{
@@ -44,7 +45,7 @@ class addClientElement extends Component{
         var data = new FormData();
         data.append( "json", JSON.stringify( payload ) );
         
-        fetch("http://localhost:5000/cliente",
+        fetch( serverURL+"/cliente",
         {
             method: "post",
             headers: { 'Accept': 'application/json',

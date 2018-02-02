@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {addOrder} from './actions.js'
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-
+import serverURL from './serverURL.js'
 
 
     class addOrderElement extends Component{
@@ -69,7 +69,7 @@ import PropTypes from 'prop-types';
         preview = () => {
             if(this.state.inicio==0 || this.state.final==0)
                 return;
-                fetch("http://localhost:5000/pdfpreview",
+                fetch( serverURL+"/pdfpreview",
                 {
                     method: "post",
                     headers: { 'Accept': 'application/json',
@@ -156,7 +156,7 @@ import PropTypes from 'prop-types';
             event.preventDefault();
        
         
-        fetch("http://localhost:5000/orden",
+        fetch( serverURL+"/orden",
         {
             method: "post",
             headers: { 'Accept': 'application/json',

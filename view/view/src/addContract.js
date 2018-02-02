@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import {addContract} from './actions.js';
+import serverURL from './serverURL.js'
 
 class addContractElement extends Component{
     constructor(props) {
@@ -72,7 +73,7 @@ class addContractElement extends Component{
         var data = new FormData();
         data.append( "json", JSON.stringify( payload ) );
         
-        fetch("http://localhost:5000/contrato",
+        fetch( serverURL+"/contrato",
         {
             method: "post",
             headers: { 'Accept': 'application/json',

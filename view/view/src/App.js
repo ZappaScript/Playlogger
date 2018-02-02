@@ -13,7 +13,7 @@ import {
     Route, 
      Switch} 
     from 'react-router-dom';
-
+import serverURL from './serverURL.js'
 
 
 class Index extends Component{
@@ -21,27 +21,27 @@ class Index extends Component{
     componentWillMount(){
         if(!this.props.loaded){
 
-            fetch("http://localhost:5000/ordenes")
+            fetch(serverURL+"/ordenes")
           .then((response) => response.json())
           .then((payload) => { this.props.pushOrders (payload.slice()); })
 
-            fetch("http://localhost:5000/contratos")
+            fetch(serverURL+"/contratos")
           .then((response) => response.json())
           .then((payload) => { this.props.pushContracts(payload.slice()); })
             
-            fetch("http://localhost:5000/clientes")
+            fetch(serverURL+"/clientes")
           .then((response) => response.json())
           .then((payload) => { this.props.pushClients(payload.slice()); })
 
-            fetch("http://localhost:5000/medios")
+            fetch(serverURL+"/medios")
           .then((response) => response.json())
           .then((payload) => { this.props.pushMedias(payload.slice()); })
             
-            fetch("http://localhost:5000/canales")
+            fetch(serverURL+"/canales")
           .then((response) => response.json())
           .then((payload) => { this.props.pushCanales(payload.slice()); })
         
-            fetch("http://localhost:5000/especificaciones")
+            fetch(serverURL+"/especificaciones")
         .then((response) => response.json())
         .then((payload) => { this.props.pushEspecificaciones(payload.slice()); this.props.printDebug();})}
     

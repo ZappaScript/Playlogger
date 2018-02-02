@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-    
+import serverURL from './serverURL.js';    
 class Orders extends Component {
   constructor(props){
     super(props)
@@ -11,7 +11,7 @@ class Orders extends Component {
   }
   
   getPDF = (numeroOrden) =>{
-    fetch("http://localhost:5000/getpdf/" + numeroOrden).then((reponse)=> { return reponse.blob()}).then((reponse)=> {
+    fetch(serverURL+"/getpdf/" + numeroOrden).then((reponse)=> { return reponse.blob()}).then((reponse)=> {
         
                 var url = URL.createObjectURL(reponse);
                 var a = document.createElement("a");
