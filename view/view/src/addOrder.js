@@ -18,7 +18,10 @@ import PropTypes from 'prop-types';
                 tipoDeTransmision: "placeholder",
                 numeroOrden:Math.floor(Math.random()*10000),
                 id_canal:-1,
-                especificacion:-1
+                id_especificacion:-1,
+                id_medio: props.getContratoPadre(props.contratoPadre).id_medio,
+                contratoPadre:props.contratoPadre
+
                 }
 
             this.handleChangeFinal=this.handleChangeFinal.bind(this);
@@ -27,15 +30,15 @@ import PropTypes from 'prop-types';
             this.handleChangeTipo = this.handleChangeTipo.bind(this);
             this.handleSubmit = this.handleSubmit.bind(this);
             this.handleChangeNOrden = this.handleChangeNOrden.bind(this);
-            this.addTransmisionSelectivo = this.addTransmisionSelectivo.bind(this)
+            this.addTransmision = this.addTransmision.bind(this)
             this.handleChangeDetalleDia = this.handleChangeDetalleDia.bind(this)
             this.handleChangeDetalleHora = this.handleChangeDetalleHora.bind(this)
             this.handleChangeCanal = this.handleChangeCanal.bind(this)
             this.preview = this.preview.bind(this)
+            this.totalADebitar = this.totalADebitar.bind(this)
             
         }
         
-
 
         handleChangeFinal = (event) => { this.setState({final: event.target.value});}
         handleChangeHorasCompradas = (event) => { this.setState({horas: event.target.value});}
@@ -46,19 +49,22 @@ import PropTypes from 'prop-types';
             let newState = this.state.detalles.transmisiones.slice()
             console.log (newState,b,newState[b])
             newState[b].dia =event.target.value;
-            this.setState ({tipo:'Selectivo',transmisiones:newState })
-
-
+            this.setState ({tipo:this.state.detalles.tipo,transmisiones:newState })
         }
         handleChangeDetalleHora = (b,event) => {
             let newState = this.state.detalles.transmisiones.slice()
             console.log (newState,b,newState[b])
             newState[b].hora =event.target.value;
-            this.setState ({tipo:'Selectivo',transmisiones:newState })
-
-
+            this.setState ({tipo:this.state.detalles.tipo,transmisiones:newState })
         }
         
+        handleChangeDetalleCantidad = (b,event) => {
+            let newState = this.state.detalles.transmisiones.slice()
+            console.log (newState,b,newState[b])
+            newState[b].cantidad =event.target.value;
+            this.setState ({tipo:this.state.detalles.tipo,transmisiones:newState })
+            this.totalADebitar({tipo:this.state.detalles.tipo,transmisiones:newState })
+        }
 
         preview = () => {
             if(this.state.inicio==0 || this.state.final==0)
@@ -69,7 +75,7 @@ import PropTypes from 'prop-types';
                     headers: { 'Accept': 'application/json',
                         'Content-Type':'application/json'}
                 , body: JSON.stringify(
-                    {'inicio':this.state.inicio,'final':this.state.final }
+                    this.state
                 
                 )
                 }).then((reponse)=> { return reponse.blob()}).then((reponse)=> {
@@ -89,19 +95,53 @@ import PropTypes from 'prop-types';
 
 
         }
+
+        totalADebitar = (transmisiones)=> {
+            //let detalles = this.state.detalles;
+            let detalles = transmisiones;
+            let total = 0;
+            let aux = this.props.getEspecificacion(this.state.id_especificacion)
+            
+            
+            if (aux) {
+                console.log("aux.costo_transmision * total",aux.costo_transmision * total)
+                console.log("detalles",detalles)
+                detalles.transmisiones.forEach(
+                    (transmision) => {
+                        total += transmision.cantidad
+                    }
+    
+    
+                ) 
+                this.setState({horas:aux.costo_transmision * total})
+                return;
+            }
+                this.setState({horas:0})
+
+            
+        
+
+        }
         handleChangeTipo = (event) => {
             
-            var tipo = this.props.getEspecificacion(event.target.value).pop()
-            console.log(tipo.tipo_transmision)
-            this.setState({especificacion:event.target.value})
-            console.log(this.state.detalles, tipo.tipo_transmision)
+            var tipo = this.props.getEspecificacion(event.target.value)
+            this.setState({id_especificacion:event.target.value})
+            let aux = this.props.getEspecificacion(event.target.value)
+            let costo = 1;
+            if(aux){
+                costo = aux.costo_transmision
+
+            }
+
             switch (tipo.tipo_transmision){
                 case 'selectivo':
                     console.log("does not enter")
-                    this.setState({detalles: { tipo:'selectivo' , transmisiones:[{ dia:"",hora:""}] }});
+                    this.setState({detalles: { tipo:'selectivo' , transmisiones:[{ dia:"",hora:"",cantidad:1}] }});
+                    this.setState({horas:costo})
                     return;
                 case 'rotativo':
-                    this.setState({detalles: { tipo:'rotativo' , transmisiones:[{ dia:"",hora:""}]}});
+                    this.setState({detalles: { tipo:'rotativo' , transmisiones:[{ dia:"",hora:"",cantidad:1}]}});
+                    this.setState({horas:costo})
                     return;
             }
             
@@ -114,42 +154,55 @@ import PropTypes from 'prop-types';
         
         handleSubmit = (event) => {
             event.preventDefault();
-        var payload = {
-            'contratoPadre':this.props.contratoPadre,
-            'numeroOrden':this.state.numeroOrden,
-           'final' : this.state.final,
-            'horas': this.state.horas,
-            'inicio': this.state.inicio,
-            'detalles': JSON.stringify(this.state.detalles),
-            'tipoDeTransmision':this.state.tipoDeTransmision
-        };
-        
-        var data = new FormData();
-        data.append( "json", JSON.stringify( payload ) );
+       
         
         fetch("http://localhost:5000/orden",
         {
             method: "post",
             headers: { 'Accept': 'application/json',
                 'Content-Type':'application/json'}
-        , body: JSON.stringify(payload)
+        , body: JSON.stringify(this.state)
         }).then((reponse)=>reponse.json()).then((reponse)=> {if (reponse[0].indexOf("UNIQUE")!= -1 ) {this.setState({error:"UNIQUE"})} })
         console.log(this.state.error)
-        if(this.props.getOrders.filter((order)=> {return ((order.contratoPadre ==this.props.contratoPadre) && (order.numeroOrden==payload.numeroOrden))}).length === 1 ){
+        if(this.props.getOrders.filter((order)=> {return ((order.contratoPadre ==this.props.contratoPadre) && (order.numeroOrden==this.state.numeroOrden))}).length != 0 ){
             alert("Este registro ya existe")
 
 
-        }
-    }
-        addTransmisionSelectivo = () => {
-            let result = this.state.detalles.transmisiones
-            result.push({dia:"",hora:""})
-            this.setState( {detalles:{ tipo:this.state.detalles.tipo, transmisiones:result } })
+        }else{
+            let toAdd = {
+                contratoPadre:this.props.contratoPadre,
+                final:this.state.final,
+                horas:this.state.horas,
+                inicio:this.state.inicio,
+                numeroOrden:this.state.numeroOrden,
+                tipoDeTransmision:this.state.id_especificacion
+
+            }
+            this.props.addOrder(toAdd)
 
         }
+    }
+        addTransmision = () => {
+            console.log(this.state.detalles.tipo)
+            let result = this.state.detalles.transmisiones
+            switch(this.state.detalles.tipo){
+                case 'selectivo':
+                console.log(this.state.detalles.transmisiones.tipo)
+                result.push({dia:"",hora:"",cantidad:1})
+                this.setState( {detalles:{ tipo:this.state.detalles.tipo, transmisiones:result } })
+                this.totalADebitar();
+                return;
+                case 'rotativo':
+                console.log(this.state.detalles.transmisiones.tipo)
+                result.push({dia:"",hora:"",cantidad:1})
+                this.setState( {detalles:{ tipo:this.state.detalles.tipo, transmisiones:result } })
+                this.totalADebitar();
+                return;
+                
+        }}
         render(){
             
-            var id_medio = this.props.getContratoPadre(this.props.contratoPadre).id_medio
+            
             console.log(this.props.getEspecificaciones(this.state.id_canal))
             
             console.log(this.state.id_canal)
@@ -166,7 +219,7 @@ import PropTypes from 'prop-types';
         
                     <select name="Canales" value = {this.state.id_canal} onChange={this.handleChangeCanal}>
                         <option selected hidden>Canal</option>
-                        {this.props.getCanales(id_medio).map( (canal)=>{ return <option value={canal.id}> {canal.nombre}</option> } )}
+                        {this.props.getCanales(this.state.id_medio).map( (canal)=>{ return <option value={canal.id}> {canal.nombre}</option> } )}
                     </select>
                 
                 </div>    
@@ -176,7 +229,7 @@ import PropTypes from 'prop-types';
                         <label className="col-md-2 col-form-label">
                         A debitar :
                         </label>
-                        <input type="text" value={this.state.horasCompradas} onChange={this.handleChangeHorasCompradas} />
+                        <input type="text" value={this.state.horas}  />
                         
                     </div>
                     
@@ -222,7 +275,9 @@ import PropTypes from 'prop-types';
                     { (this.state.error =="UNIQUE")  && <h2>Este registro ya existe</h2>}
 
                     </div>
-                    {this.state.detalles.tipo =='selectivo' && <button className ='btn row' value="Añadir entrada" type="button" onClick={this.addTransmisionSelectivo} >Añadir entrada</button> }
+
+                    <button className ='btn row' value="Añadir entrada" type="button" onClick={this.addTransmision} >Añadir entrada</button>
+                    
                     <div className="form-group row">
                     
                         <div className='col'>
@@ -231,6 +286,12 @@ import PropTypes from 'prop-types';
                                 <input type="date" value={this.state.detalles.transmisiones[b].dia} onChange={this.handleChangeDetalleDia.bind(this,b)} />
                                 <input type="time" value={this.state.detalles.transmisiones[b].hora} onChange={this.handleChangeDetalleHora.bind(this,b)} />
                                 
+                                </div>})}
+
+                        { this.state.detalles.tipo =='rotativo' && this.state.detalles.transmisiones.map( (a,b)=> { 
+                            return <div className='row mt-2'> 
+                                <input type="date" value={this.state.detalles.transmisiones[b].dia} onChange={this.handleChangeDetalleDia.bind(this,b)} />
+                                <input type="number" value={this.state.detalles.transmisiones[b].cantidad} onChange={this.handleChangeDetalleCantidad.bind(this,b)} />
                                 </div>})}
                         </div>
 
@@ -303,7 +364,7 @@ import PropTypes from 'prop-types';
                     return (especificacion.id == id)
 
 
-                }))
+                }).pop() )
 
 
             }

@@ -23,7 +23,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
                             <th> Nombre</th>
                             
                         </tr>
-                    {this.props.clients.filter((client)=>{ return (client.rif==this.props.getSearch() || this.props.getSearch() === "")  } ).map( (cliente,i)=> { return (
+                    {this.props.clients.filter((client)=>{  console.log(client.rif ,this.props.getSearch(), client.rif.toString().indexOf(this.props.getSearch().toString()));   return (client.rif.toString().indexOf(this.props.getSearch().toString() ) != -1  || client.nombre.toString().indexOf(this.props.getSearch().toString())!= -1 || this.props.getSearch() === "" )  } ).map( (cliente,i)=> { return (
                                                     <tr key={i}>
                                                         <td>
                                                             <Link to =

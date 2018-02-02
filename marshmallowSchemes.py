@@ -13,7 +13,7 @@ class ClientesSchema(ma.Schema):
 class ordenesDeTransmisionSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ('contratoPadre', 'numeroOrden','tipoDeTransmision','horas','inicio','final')
+        fields = ('contratoPadre', 'numeroOrden','tipoDeTransmision','horas','inicio','final') ##cambiar tipoDeTransmision por id_especificacion
 
 class MediaSchema(ma.Schema):
     class Meta:

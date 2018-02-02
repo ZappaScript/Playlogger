@@ -35,6 +35,13 @@ def print_tablas():
     toSend = {"tables": db.metadata.sorted_tables }
     return toSend
 
+
+@app.route("/getpdf/<orden>", methods=["GET"])
+def get_ordenPDF(orden):
+    if(os.path.exists( orden+'.pdf')):
+        print(request)
+        return send_from_directory('', orden+'.pdf')
+
 # endpoint to show all users
 
 
@@ -122,9 +129,15 @@ def add_contrato():
 
 @app.route("/pdfpreview", methods=["POST"])
 def order_Preview():
+    
     data = request.get_json()
+    
+    
+    data['datosCanal']=Canal.query.get(data["id_canal"])
+    data['datosEspecificacion'] = EspecificacionOrden.query.get(data['id_especificacion'])
+    
     pdfData = previewPDF(data)
-    ##print ('pdfData',pdfData)
+    
     response = make_response(pdfData)
     response.headers.set('Content-Disposition', 'attachment', filename='preview' + '.pdf')
     response.headers.set('Content-Type', 'application/pdf')
@@ -136,19 +149,22 @@ def order_Preview():
 @app.route("/orden", methods=["POST"])
 def add_tOrder():
     data = request.get_json()
-    contratoPadre = data['contratoPadre']
-    numeroOrden = data['numeroOrden']
-    tipoDeTransmision = data['tipoDeTransmision']
-    horas = data['horas']
-    inicio = data['inicio']
-    final = data['final']
-    detalles = data['detalles']
-    print (inicio,final)
+    data['datosCanal']=Canal.query.get(data["id_canal"])
+    data['datosEspecificacion'] = EspecificacionOrden.query.get(data['id_especificacion'])
     
-
-    new_order = ordenesDeTransmision(contratoPadre=contratoPadre,numeroOrden=numeroOrden,tipoDeTransmision=tipoDeTransmision, horas=horas,inicio=inicio, final=final,detalles=detalles)
+    pdfData = renderPDF(data)
+    new_order = ordenesDeTransmision()
+    
     try:
-        db.session.add(new_order)
+        db.session.add(ordenesDeTransmision(
+            contratoPadre=data['contratoPadre'],
+            numeroOrden=data['numeroOrden'],
+            tipoDeTransmision=data['id_especificacion'], 
+            horas=data['horas'],
+            inicio=data['inicio'], 
+            final=data['final'],
+            detalles=str(data['detalles'])
+            ))
         db.session.commit()
         return jsonify("Succes")
     except exc.IntegrityError as e:

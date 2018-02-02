@@ -26,7 +26,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
           let query = this.props.getContract(numeroCorrelativo);
           let singleContract = query.contract;
           let orders = query.orders;
-    
+          let medio = this.props.getMedio(singleContract.id_medio)
           console.log("Contract and contracts",singleContract, orders);
           return (
             <ReactCSSTransitionGroup transitionName="example" transitionAppear={true} transitionAppearTimeout={500} transitionEnter={true} transitionLeave={true}>
@@ -39,9 +39,9 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
               <tr>
                 <th>Numero Correlativo</th>
                 <th>Cliente</th>
+                <th>Inventario comprado</th>
                 <th>Inventario restante</th>
-                <th>Inventario restante</th>
-                
+                <th>Cadena</th>
                 
 
               </tr> 
@@ -50,6 +50,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
                     <td>{singleContract.perteneceA}</td>
                     <td>{singleContract.horasCompradas}</td>
                     <td>{singleContract.horasRestantes}</td>
+                    <td>{medio.nombre}</td>
                   </tr>
                 
               </Table>
@@ -66,6 +67,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
                 <th>Horas</th>
                 <th>Inicio</th>
                 <th>Final</th>
+                <th>Canal</th>
                 
 
               </tr> 
@@ -74,10 +76,11 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
                     <tr key={i}>
                     
                     <td>{order.numeroOrden}</td>
-                    <td>{order.tipoDeTransmision}</td>
+                    <td>{this.props.getEspecificacion(order.tipoDeTransmision).nombre}</td>
                     <td>{order.horas}</td>
                     <td>{order.inicio}</td>
                     <td>{order.final}</td>
+                    <td>{ this.props.getCanal( this.props.getEspecificacion(order.tipoDeTransmision).id_canal ).nombre  }</td>
                     </tr>
                     )
                   } 
@@ -108,10 +111,22 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
             
               { "contract":state.contracts.filter((contract) => { return (contract.numeroCorrelativo == numeroCorrelativo) }).pop(),
                 "orders": state.orders.filter((order) => { return (order.contratoPadre == numeroCorrelativo) })
+                  
+              })
+            },
+            getMedio : (id_medio) => {
+                return ( state.media.filter((medio) => {return medio.id==id_medio } ).pop() )
+
+            },
+            getCanal: (id_canal)=> {
+              return (state.canales.filter( (canal)=> {return canal.id == id_canal} ).pop() )
+
+
+            },
+            getEspecificacion : (tipoDeTransmision) => {
+              return (state.especificaciones.filter( (especificacion)=>{return especificacion.id==tipoDeTransmision } ).pop() )
+
             }
-            
-            )
-          }
         }
       }
     
