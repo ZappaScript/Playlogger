@@ -36,9 +36,18 @@ import serverURL from './serverURL.js'
             this.handleChangeCanal = this.handleChangeCanal.bind(this)
             this.preview = this.preview.bind(this)
             this.totalADebitar = this.totalADebitar.bind(this)
+            this.deleteFromOrder = this.deleteFromOrder.bind(this)
             
         }
         
+
+        deleteFromOrder = (index) => {
+            let result = {tipo:this.state.detalles.tipo, transmisiones: this.state.detalles.transmisiones.filter( (x,y) =>{ return y != index;} )      }
+            this.setState( {detalles:result})
+            this.totalADebitar(result)
+
+        }
+
 
         handleChangeFinal = (event) => { this.setState({final: event.target.value});}
         handleChangeHorasCompradas = (event) => { this.setState({horas: event.target.value});}
@@ -182,24 +191,29 @@ import serverURL from './serverURL.js'
 
         }
     }
-        addTransmision = () => {
+        addTransmision = () => { //esta mierda es completamente inecesaria, esta duplicado el código
             console.log(this.state.detalles.tipo)
-            let result = this.state.detalles.transmisiones
-            switch(this.state.detalles.tipo){
+            let result = this.state.detalles;
+            /*switch(result.tipo){
                 case 'selectivo':
                 console.log(this.state.detalles.transmisiones.tipo)
-                result.push({dia:"",hora:"",cantidad:1})
-                this.setState( {detalles:{ tipo:this.state.detalles.tipo, transmisiones:result } })
-                this.totalADebitar();
+                result.transmisiones.push({dia:"",hora:"",cantidad:1})
+                this.setState( {detalles:{result} })
+                this.totalADebitar(result);
                 return;
                 case 'rotativo':
                 console.log(this.state.detalles.transmisiones.tipo)
                 result.push({dia:"",hora:"",cantidad:1})
                 this.setState( {detalles:{ tipo:this.state.detalles.tipo, transmisiones:result } })
-                this.totalADebitar();
-                return;
+                this.totalADebitar(result);
+                return;*/
+
+                result.transmisiones.push({dia:"",hora:"",cantidad:1})
+                this.setState( {detalles:result })
+                this.totalADebitar(result);
                 
-        }}
+                
+        }
         render(){
             
             
@@ -285,13 +299,14 @@ import serverURL from './serverURL.js'
                             return <div className='row mt-2'> 
                                 <input type="date" value={this.state.detalles.transmisiones[b].dia} onChange={this.handleChangeDetalleDia.bind(this,b)} />
                                 <input type="time" value={this.state.detalles.transmisiones[b].hora} onChange={this.handleChangeDetalleHora.bind(this,b)} />
-                                
+                                <button className='btn btn-primary'  value="Borrar entrada" type="button" onClick ={this.deleteFromOrder.bind(this,b)} >Borrar</button>
                                 </div>})}
 
                         { this.state.detalles.tipo =='rotativo' && this.state.detalles.transmisiones.map( (a,b)=> { 
                             return <div className='row mt-2'> 
                                 <input type="date" value={this.state.detalles.transmisiones[b].dia} onChange={this.handleChangeDetalleDia.bind(this,b)} />
                                 <input type="number" value={this.state.detalles.transmisiones[b].cantidad} onChange={this.handleChangeDetalleCantidad.bind(this,b)} />
+                                <button className='btn btn-primary'  value="Borrar entrada" type="button" onClick ={this.deleteFromOrder.bind(null,b)} >Borrar</button>
                                 </div>})}
                         </div>
 
@@ -303,7 +318,7 @@ import serverURL from './serverURL.js'
                  <input type="submit" className="btn btn-primary row" value="Submit" />
                 
                 </form>
-                <div className="form-group row mt-2">
+                <div className="row mt-2">
                     <button className ='btn btn-outline-primary' value="preview" type="button" onClick={this.preview} >Preview</button> 
                 </div>
            

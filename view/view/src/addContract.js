@@ -81,9 +81,9 @@ class addContractElement extends Component{
         , body: JSON.stringify(payload)
         }).then((reponse)=>reponse.json()).then((reponse)=> {if (reponse[0].indexOf("UNIQUE")!= -1 ) {this.setState({error:"UNIQUE"})} })
         console.log(this.state.error)
-        if(this.state.error===""){
+        
             this.props.addContract(payload)
-        }
+        
     
     }
 render(){

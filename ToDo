@@ -1,0 +1,9 @@
+1) Añadir canales, medios y especificaciones.
+2) Editar contratos ,ordenes y clientes.
+3) Trabajar en el certificado de transmisión.
+4) Realizar el informe.
+5) Trabajar en el contraste certOrden/playlogger.
+    5a) Prototipo con diccionario.
+    5b) Prototipo con algún algoritmo más sofisticado
+6) Limpiar el código, tanto de front-end como back-end. 
+7) Aplicar una estructura más cercana a la filosofía de redux.
