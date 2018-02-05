@@ -190,7 +190,7 @@ import serverURL from './serverURL.js'
                 horas:this.state.horas,
                 inicio:this.state.inicio,
                 numeroOrden:this.state.numeroOrden,
-                tipoDeTransmision:this.state.tipoDeTransmision,
+                tipoDeTransmision:this.state.id_especificacion,
                 detalles: this.state.detalles
 
             }
