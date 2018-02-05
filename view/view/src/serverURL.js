@@ -1,5 +1,5 @@
 
 
-const  serverUrl = 'http://localhost:5000' ;
+const  serverUrl = 'http://juanestrada.pythonanywhere.com' ;
 
 export default serverUrl;
