@@ -6,8 +6,9 @@ export const SET_LOADED = 'SET_LOADED'
 export const SET_MEDIAS = 'SET_MEDIAS'
 export const SET_CANALES = 'SET_CANALES'
 export const SET_ESPECIFICACIONES = 'SET_ESPECIFICACIONES'
-
-
+export const UPDATE_CONTRACT ='UPDATE_CONTRACT'
+export const UPDATE_ORDER ='UPDATE_ORDER'
+export const UPDATE_CLIENT ='UPDATE_CLIENT'
 export const SET_SEARCH = 'SET_SEARCH'
 export const ADD_CONTRACT = 'ADD_CONTRACT'
 export const ADD_CLIENT = 'ADD_CLIENT'
@@ -74,5 +75,18 @@ export function addContract(contract){
 }
 export function addOrder(order){
     return{type:ADD_ORDER,order}
+
+}
+
+export function updateClient(client){
+    return {type:UPDATE_CLIENT,client}
+
+}
+export function updateContract(contract){
+    return {type:UPDATE_CONTRACT,contract}
+
+}
+export function updateOrder(order){
+    return {type:UPDATE_ORDER,order}
 
 }

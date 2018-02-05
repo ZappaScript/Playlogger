@@ -9,6 +9,7 @@ class RouterButton extends Component {
   }
 
   pushHistory() {
+    console.log (this.props.dataKey)
     this.props.history.replace(this.props.redirectTo);
   }
   

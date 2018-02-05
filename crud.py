@@ -1,21 +1,6 @@
 from schemas import *
 from marshmallowSchemes import *
 
-
-# endpoint to create new user
-
-
-
-#def generate_schedule(**descriptor):
- #   if descriptor["tipo"] == "rotativo"
-
-  #  if descriptor["tipo"] == "selectivo"
-   #     numero = descriptor["numero"]
-    #    horaInicio = descriptor["horaInicio"]
-     #   horaFinal = descriptor["horaFinal"]
-
-
-
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
@@ -113,7 +98,7 @@ def add_contrato():
     new_contrato= Contratos(numeroCorrelativo=data['numeroCorrelativo'],
                             id_medio= data['id_medio'], 
                             horasCompradas=data['horasCompradas'],
-                            horasRestantes=data['horasRestantes'],
+                            horasRestantes=data['horasCompradas'],
                             perteneceA=data['perteneceA'])
     try:
         db.session.add(new_contrato)
@@ -146,6 +131,53 @@ def order_Preview():
     return response
     
 
+
+
+@app.route("/update/<opt>", methods=["POST"])
+def update_row(opt):
+    data = request.get_json()
+    if(opt == 'cliente' ):
+        
+        foobar = db.session.query(Clientes).get(data['rif'])
+        
+        for key, value in data.items():
+        
+            setattr(foobar, key, value)
+
+    
+    if(opt == 'contrato' ):
+        foobar = db.session.query(Contratos).get(data['numeroCorrelativo'])
+        
+        for key, value in data.items():
+        
+            setattr(foobar, key, value)
+
+       
+    if(opt == 'orden' ):
+        print(data)
+        foobar = db.session.query(ordenesDeTransmision).get((data['contratoPadre'],data['numeroOrden']))
+        
+        foobar.contratoPadre=data['contratoPadre']
+        foobar.numeroOrden=data['numeroOrden']
+        foobar.tipoDeTransmision=data['tipoDeTransmision']
+        foobar.horas=data['horas']
+        foobar.inicio=data['inicio']
+        foobar.final=data['final']
+        foobar.detalles=str(data['detalles'])
+    try:
+        
+        db.session.commit()
+        db.session.flush()
+        return jsonify("OK 200")
+    except exc.IntegrityError as e:
+        db.session.rollback()
+        return jsonify(e.args) ##Must find a way to return a more specific error    
+        
+        
+            
+
+        
+
 @app.route("/orden", methods=["POST"])
 def add_tOrder():
     data = request.get_json()
@@ -154,6 +186,7 @@ def add_tOrder():
     
     pdfData = renderPDF(data)
     new_order = ordenesDeTransmision()
+    print('This is what I get in /orden post',data)
     
     try:
         db.session.add(ordenesDeTransmision(

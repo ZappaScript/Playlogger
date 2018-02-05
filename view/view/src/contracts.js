@@ -30,6 +30,7 @@ class Contracts extends Component {
                 <th>Inventario comprado</th>
                 <th>Inventario restante</th>
                 <th>Número Correlativo</th>
+                <th></th>
               </tr> 
               { this.props.contracts.filter((contract)=>{ return (contract.numeroCorrelativo.toString().indexOf(this.props.getSearch())!=-1 ||  this.props.getSearch() == "")  } ).map( (contract,i) => {return (
                 <tr key={i}>
@@ -37,7 +38,7 @@ class Contracts extends Component {
                   <td><div>{contract.horasCompradas}</div></td>
                   <td><div>{contract.horasRestantes}</div></td>
                   <td> <Link to={`${match.path}`+'/'+contract.numeroCorrelativo} ><div>{contract.numeroCorrelativo}</div></Link></td>
-                  
+                  <td> <RouterButton type='Editar' redirectTo={"/edit/contract/"+contract.numeroCorrelativo} />  </td>
                 </tr>
               )})}
               </tbody>     

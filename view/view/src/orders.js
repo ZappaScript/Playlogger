@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import serverURL from './serverURL.js';    
+import RouterButton from './routerButton';
 class Orders extends Component {
   constructor(props){
     super(props)
@@ -41,6 +42,7 @@ class Orders extends Component {
                 <th>Horas</th>
                 <th>Inicio</th>
                 <th>Final</th>
+                <th></th>
                 
 
               </tr> 
@@ -52,6 +54,7 @@ class Orders extends Component {
                   <td><div>{order.horas}</div></td>
                   <td><div>{order.inicio}</div></td>
                   <td><div>{order.final}</div></td>
+                  <td> <RouterButton type='Editar' redirectTo={'/edit/order/'+order.numeroOrden}/></td>
                 </tr>
               )})}
               </tbody>     

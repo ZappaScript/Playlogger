@@ -21,6 +21,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
                             <th>RIF</th>
                             <th>Razon social</th>
                             <th> Nombre</th>
+                            <th>  </th>
                             
                         </tr>
                     {this.props.clients.filter((client)=>{  console.log(client.rif ,this.props.getSearch(), client.rif.toString().indexOf(this.props.getSearch().toString()));   return (client.rif.toString().indexOf(this.props.getSearch().toString() ) != -1  || client.nombre.toString().indexOf(this.props.getSearch().toString())!= -1 || this.props.getSearch() === "" )  } ).map( (cliente,i)=> { return (
@@ -28,9 +29,13 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
                                                         <td>
                                                             <Link to =
                                                             {{ pathname:`${match.path}`+'/'+cliente.rif}}><div>{cliente.rif}</div> 
-                                                            </Link></td>
+                                                            </Link>
+                                                            
+                                                            </td>
                                                         <td><div>{cliente.razonSocial}</div></td>
                                                         <td><div>{cliente.nombre}</div></td>
+                                                        
+                                                        <td><RouterButton type="Editar" dataKey = {cliente.rif} redirectTo={"/edit/client/"+cliente.rif} /></td>
                                                     </tr>
                                                 )   
                                                 }

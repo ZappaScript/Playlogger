@@ -14,8 +14,9 @@ from reportlab.platypus.paragraph import Paragraph
 
 
 import random
-import cStringIO
+##import cStringIO
 
+from io import StringIO, BytesIO
 doc = SimpleDocTemplate("simple_table_grid.pdf",leftMargin=0.2*inch, rightMargin= 0.2*inch, pagesize=landscape(letter))
 lst = [] ##this will contain all the dataframes 
 
@@ -265,7 +266,8 @@ def leftSide(data,nT):
         ##print("Hello")
     
 def previewPDF(data):
-    buf = cStringIO.StringIO()
+    buf = BytesIO()
+
     doc = SimpleDocTemplate(buf,leftMargin=0.2*inch, rightMargin= 0.2*inch, pagesize=landscape(A4))
     print (data['detalles']['transmisiones'])
     genReport(doc, data)
@@ -274,7 +276,7 @@ def previewPDF(data):
 
 
 def renderPDF(data):
-    buf = cStringIO.StringIO()
+    buf = BytesIO()
 
     doc = SimpleDocTemplate(str(str(data['numeroOrden'])+'.pdf'),leftMargin=0.2*inch, rightMargin= 0.2*inch, pagesize=landscape(A4))
     print (data['detalles']['transmisiones'])

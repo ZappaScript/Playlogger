@@ -5,6 +5,7 @@ import contractsContainer from './containers/contractsContainer.js';
 import singleClientContainer from './client.js';
 import NavBar from './nav.js'
 import addElement from "./addElement.js"
+import EditClient from "./editElement.js"
 import ordersContainer from './containers/ordersContainer.js'
 import ReactCSSTransitionGroup from "react-addons-css-transition-group"
 import Cert from './orderCert.js'
@@ -14,6 +15,8 @@ import {
      Switch} 
     from 'react-router-dom';
 import serverURL from './serverURL.js'
+import editClient from './editClient';
+import editElement from './editElement';
 
 
 class Index extends Component{
@@ -67,7 +70,11 @@ render(){
                    
                     <Route exact={true} path='/add/:toAdd' component={addElement}/>
                     <Route exact={true} path='/add/:toAdd/:param' component={addElement}/>
+                    
+                    <Route exact={true} path='/edit/:element/:key' component={editElement}/>
                     <Route exact={true} path='/orderCert' component={Cert}/>
+
+
                 </Switch>
             
             </div>
