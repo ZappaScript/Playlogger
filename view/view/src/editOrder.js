@@ -169,21 +169,6 @@ import serverURL from './serverURL.js'
         
         handleSubmit = (event) => {
             event.preventDefault();
-       
-        
-        fetch( serverURL+"/update/orden",
-        {
-            method: "post",
-            headers: { 'Accept': 'application/json',
-                'Content-Type':'application/json'}
-        , body: JSON.stringify(this.state)
-        }).then((reponse)=>reponse.json()).then((reponse)=> {if (reponse[0].indexOf("UNIQUE")!= -1 ) {this.setState({error:"UNIQUE"})} })
-        
-        if(this.props.getOrders.filter((order)=> {return ((order.contratoPadre ==this.props.contratoPadre) && (order.numeroOrden==this.state.numeroOrden))}).length != 0 ){
-            alert("Este registro ya existe")
-
-
-        }else{
             let toAdd = {
                 contratoPadre:this.state.contratoPadre,
                 final:this.state.final,
@@ -194,6 +179,23 @@ import serverURL from './serverURL.js'
                 detalles: this.state.detalles
 
             }
+
+
+        
+        fetch( serverURL+"/update/orden",
+        {
+            method: "post",
+            headers: { 'Accept': 'application/json',
+                'Content-Type':'application/json'}
+        , body: JSON.stringify(toAdd)
+        }).then((reponse)=>reponse.json()).then((reponse)=> {if (reponse[0].indexOf("UNIQUE")!= -1 ) {this.setState({error:"UNIQUE"})} })
+        
+        if(this.props.getOrders.filter((order)=> {return ((order.contratoPadre ==this.props.contratoPadre) && (order.numeroOrden==this.state.numeroOrden))}).length != 0 ){
+            alert("Este registro ya existe")
+
+
+        }else{
+          
             this.props.setOrder(toAdd)
 
         }
