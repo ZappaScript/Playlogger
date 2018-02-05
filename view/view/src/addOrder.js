@@ -9,7 +9,7 @@ import serverURL from './serverURL.js'
 
         constructor(props){
             super(props)
-
+            console.log(props)
             this.state = {
                 horas : 0,
                 inicio : 0,
@@ -184,7 +184,8 @@ import serverURL from './serverURL.js'
                 horas:this.state.horas,
                 inicio:this.state.inicio,
                 numeroOrden:this.state.numeroOrden,
-                tipoDeTransmision:this.state.id_especificacion
+                tipoDeTransmision:this.state.id_especificacion,
+                detalles: this.state.detalles
 
             }
             this.props.addOrder(toAdd)
@@ -356,14 +357,14 @@ import serverURL from './serverURL.js'
             getContratoPadre: (contratoPadre) => { 
                 return (state.contracts.filter( (contract) => {
                     
-                    return(contract.numeroCorrelativo === contratoPadre)
+                    return(contract.numeroCorrelativo == contratoPadre)
                 }).pop()
                 )
             },
             getOrders: getOrders(state.orders),
             getCanales: (id_medio)=>{
                 return (state.canales.filter ( (canal)=> {
-                    return (canal.id_medio===id_medio)
+                    return (canal.id_medio==id_medio)
                 } ))
 
             },

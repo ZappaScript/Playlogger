@@ -12,7 +12,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
               return(
                 <ReactCSSTransitionGroup transitionName="example" transitionAppear={true} transitionAppearTimeout={500} transitionEnter={true} transitionLeave={true}>
                 <div className="container justify-content-center mt-2 pt-2 wht shadowed">
-                    <div className='row mt-2 ml-2'>  <RouterButton type="cliente" redirectTo="/add/client"/></div>
+                    <div className='row mt-2 ml-2'>  <RouterButton type="Añadir cliente" redirectTo="/add/client"/></div>
                     <div className="row mt-2">
                     <div className="col">
                     <table className="table table-striped table-bordered table-hover table-condensed table-sm"> 

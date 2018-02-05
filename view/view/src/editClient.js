@@ -59,7 +59,7 @@ class editClient extends Component{
         })
         if(this.state.error===""){
            //this.props.addClient(payload)
-
+            this.props.setClient(payload)
 
         }
 

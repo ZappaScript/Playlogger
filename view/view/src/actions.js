@@ -87,6 +87,7 @@ export function updateContract(contract){
 
 }
 export function updateOrder(order){
+    console.log(order)
     return {type:UPDATE_ORDER,order}
 
 }

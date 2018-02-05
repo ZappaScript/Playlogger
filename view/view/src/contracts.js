@@ -17,7 +17,7 @@ class Contracts extends Component {
         <div className="container justify-content-center pt-2 mt-2 shadowed wht">
 
           <div className="row mt-2 col">
-            <div><RouterButton type="contrato" redirectTo="/add/contract"/> </div>
+            <div><RouterButton type="Añadir contrato" redirectTo="/add/contract"/> </div>
           </div>
 
         <div className="row">

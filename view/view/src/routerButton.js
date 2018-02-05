@@ -14,7 +14,7 @@ class RouterButton extends Component {
   }
   
   render(){
-      return(<button onClick={this.pushHistory} className="btn" >Añadir {this.props.type} </button>)
+      return(<button onClick={this.pushHistory} className="btn" > {this.props.type} </button>)
     
     }
 

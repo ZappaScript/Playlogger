@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {addOrder} from './actions.js'
+import {addOrder, updateOrder} from './actions.js'
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import serverURL from './serverURL.js'
@@ -12,13 +12,16 @@ import serverURL from './serverURL.js'
 
             let id_order = props.dataKey;
             let order = props.getOrder(id_order)
-            order.detalles = order.detalles.replace(/'/g, '"')
-            console.log('EditOrder orderlog',order)
+            console.log('EditOrder orderlog',order, props.dataKey)
+            
+            if(typeof order.detalles ==="string" ){
+            order.detalles = JSON.parse(order.detalles.replace(/'/g, '"'))
+            }
             this.state = {
                 horas : order.horas,
                 inicio : order.inicio,
                 final : order.final,
-                detalles : JSON.parse(order.detalles),
+                detalles : order.detalles,
                 tipoDeTransmision: order.tipoDeTransmision,
                 numeroOrden:order.numeroOrden,
                 id_canal:order.id_canal,
@@ -60,20 +63,20 @@ import serverURL from './serverURL.js'
         
         handleChangeDetalleDia = (b,event) => {
             let newState = this.state.detalles.transmisiones.slice()
-            console.log (newState,b,newState[b])
+            
             newState[b].dia =event.target.value;
             this.setState ({tipo:this.state.detalles.tipo,transmisiones:newState })
         }
         handleChangeDetalleHora = (b,event) => {
             let newState = this.state.detalles.transmisiones.slice()
-            console.log (newState,b,newState[b])
+            
             newState[b].hora =event.target.value;
             this.setState ({tipo:this.state.detalles.tipo,transmisiones:newState })
         }
         
         handleChangeDetalleCantidad = (b,event) => {
             let newState = this.state.detalles.transmisiones.slice()
-            console.log (newState,b,newState[b])
+            
             newState[b].cantidad =event.target.value;
             this.setState ({tipo:this.state.detalles.tipo,transmisiones:newState })
             this.totalADebitar({tipo:this.state.detalles.tipo,transmisiones:newState })
@@ -117,8 +120,7 @@ import serverURL from './serverURL.js'
             
             
             if (aux) {
-                console.log("aux.costo_transmision * total",aux.costo_transmision * total)
-                console.log("detalles",detalles)
+               
                 detalles.transmisiones.forEach(
                     (transmision) => {
                         total += transmision.cantidad
@@ -148,7 +150,7 @@ import serverURL from './serverURL.js'
 
             switch (tipo.tipo_transmision){
                 case 'selectivo':
-                    console.log("does not enter")
+                    
                     this.setState({detalles: { tipo:'selectivo' , transmisiones:[{ dia:"",hora:"",cantidad:1}] }});
                     this.setState({horas:costo})
                     return;
@@ -176,27 +178,28 @@ import serverURL from './serverURL.js'
                 'Content-Type':'application/json'}
         , body: JSON.stringify(this.state)
         }).then((reponse)=>reponse.json()).then((reponse)=> {if (reponse[0].indexOf("UNIQUE")!= -1 ) {this.setState({error:"UNIQUE"})} })
-        console.log(this.state.error)
+        
         if(this.props.getOrders.filter((order)=> {return ((order.contratoPadre ==this.props.contratoPadre) && (order.numeroOrden==this.state.numeroOrden))}).length != 0 ){
             alert("Este registro ya existe")
 
 
         }else{
             let toAdd = {
-                contratoPadre:this.props.contratoPadre,
+                contratoPadre:this.state.contratoPadre,
                 final:this.state.final,
                 horas:this.state.horas,
                 inicio:this.state.inicio,
                 numeroOrden:this.state.numeroOrden,
-                tipoDeTransmision:this.state.id_especificacion
+                tipoDeTransmision:this.state.tipoDeTransmision,
+                detalles: this.state.detalles
 
             }
-            this.props.addOrder(toAdd)
+            this.props.setOrder(toAdd)
 
         }
     }
         addTransmision = () => { //esta mierda es completamente inecesaria, esta duplicado el código
-            console.log(this.state.detalles.tipo)
+         
             let result = this.state.detalles;
             /*switch(result.tipo){
                 case 'selectivo':
@@ -221,9 +224,7 @@ import serverURL from './serverURL.js'
         render(){
             
             
-            console.log(this.props.getEspecificaciones(this.state.id_canal))
             
-            console.log(this.state.id_canal)
             return( 
 
 
@@ -360,7 +361,7 @@ import serverURL from './serverURL.js'
             getContratoPadre: (contratoPadre) => { 
                 return (state.contracts.filter( (contract) => {
                     
-                    return(contract.numeroCorrelativo === contratoPadre)
+                    return(contract.numeroCorrelativo == contratoPadre)
                 }).pop()
                 )
             },
@@ -368,7 +369,7 @@ import serverURL from './serverURL.js'
             getOrder: (id_order) => {return state.orders.filter(order => {return order.numeroOrden ==id_order}).pop()},
             getCanales: (id_medio)=>{
                 return (state.canales.filter ( (canal)=> {
-                    return (canal.id_medio===id_medio)
+                    return (canal.id_medio==id_medio)
                 } ))
 
             },
@@ -394,8 +395,8 @@ import serverURL from './serverURL.js'
 
     const mapDispatchToProps = dispatch => {
     return{
-        addOrder : (order) => { 
-            dispatch(addOrder(order))
+        setOrder : (order) => { 
+            dispatch(updateOrder(order))
         },
     
     }

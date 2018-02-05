@@ -83,6 +83,7 @@ function contratosApp(state = initialState, action) {
       
       })
       case ADD_CONTRACT:
+      console.log(action.contract)
         return Object.assign({}, state, {
           
           contracts : state.contracts.concat([action.contract])
@@ -101,21 +102,24 @@ function contratosApp(state = initialState, action) {
       
         })
       case  UPDATE_ORDER:
+      console.log(action.order)
       return Object.assign ({} ,state, {
       
-        orders : state.orders.filter((order) => { return order.id != action.order.id }).concat([action.order])
+        orders : state.orders.filter((order) => { return order.numeroOrden != action.order.numeroOrden }).concat([action.order])
       
       })
       case  UPDATE_CLIENT:
-      return Object.assign ({} ,state, { 
       
-        clients : state.clients.filter((client) => { return client.id != action.client.id }).concat([action.client])
+      return Object.assign ({} ,state, { 
+        
+        clients : state.clients.filter((client) => { return client.rif != action.client.rif }).concat([action.client])
       
       })
       case  UPDATE_CONTRACT:
+      console.log(action.contract)
       return Object.assign ({} ,state, {
          
-        contracts : state.contracts.filter((contract) => { return contract.id != action.contract.id }).concat([action.contract])
+        contracts : state.contracts.filter((contract) => { return contract.numeroCorrelativo != action.contract.numeroCorrelativo }).concat([action.contract])
        
       })
     default:

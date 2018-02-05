@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import {addContract} from './actions.js';
+import {addContract, updateContract} from './actions.js';
 import serverURL from './serverURL.js'
 
 class editContract extends Component{
@@ -14,7 +14,7 @@ class editContract extends Component{
             formHorasRestantes:contract.horasRestantes,
             formNumeroCorrelativo:contract.numeroCorrelativo,
             error:"",
-            network:contract.media
+            network:contract.id_medio
         
         }
         this.handleChangeperteneceA = this.handleChangeperteneceA.bind(this);
@@ -84,7 +84,7 @@ class editContract extends Component{
         }).then((reponse)=>reponse.json()).then((reponse)=> {if (reponse[0].indexOf("UNIQUE")!= -1 ) {this.setState({error:"UNIQUE"})} })
         console.log(this.state.error)
         
-            this.props.addContract(payload)
+            this.props.setContract(payload)
         
     
     }
@@ -161,8 +161,8 @@ const mapStateToProps = state =>{
 
 const mapDispatchToProps = dispatch => {
 return{
-    addContract : (contract) => { 
-        dispatch(addContract(contract))
+    setContract : (contract) => { 
+        dispatch(updateContract(contract))
     }
 
 }
